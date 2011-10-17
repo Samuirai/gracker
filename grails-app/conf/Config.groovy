@@ -100,7 +100,7 @@ grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptU
 grails.plugins.springsecurity.interceptUrlMap = [
    '/user/**':    		['ROLE_ADMIN'],
    '/userRole/**':   	['ROLE_ADMIN'],
-   '/role/**':   		['IS_AUTHENTICATED_FULLY'],
+   '/role/**':   		['ROLE_ADMIN'],
    '/crumb/**':   		['IS_AUTHENTICATED_FULLY'],
    '/job/**':   		['IS_AUTHENTICATED_FULLY'],
    '/js/**':        	['IS_AUTHENTICATED_ANONYMOUSLY'],

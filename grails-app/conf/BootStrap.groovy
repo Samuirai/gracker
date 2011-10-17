@@ -6,7 +6,7 @@ class BootStrap {
         def filip = new User(username: "theflip", forename: 'Filip', surename: 'Haase',
             password: "password", enabled: true, email:'haase.filip@googlemail.com',
             website: 'http://www.f-haase.org').save();
-		def chris = new User(username: "dark5in", forename: 'Christopher Westphal', surename: 'Haase',
+		def chris = new User(username: "dark5in", forename: 'Christopher', surename: 'Westphal',
 			password: "password", enabled: true, email:'chris90night@googlemail.com',
 			website: 'http://www.timeofdarkness.de').save();
 		def fabi = new User(username: "samuirai", forename: 'Fabian', surename: 'Fäßler',
