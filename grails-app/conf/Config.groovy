@@ -103,6 +103,7 @@ grails.plugins.springsecurity.interceptUrlMap = [
    '/role/**':   		['ROLE_ADMIN'],
    '/crumb/**':   		['IS_AUTHENTICATED_FULLY'],
    '/job/**':   		['IS_AUTHENTICATED_FULLY'],
+   '/home/**':   		['IS_AUTHENTICATED_ANONYMOUSLY'],
    '/js/**':        	['IS_AUTHENTICATED_ANONYMOUSLY'],
    '/css/**':       	['IS_AUTHENTICATED_ANONYMOUSLY'],
    '/images/**':    	['IS_AUTHENTICATED_ANONYMOUSLY'],
