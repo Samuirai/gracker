@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {background: #ff00cc;}
+
+#container {width: 700px; margin: auto; background: #fff; border: 10px solid purple;}
+
+#inner-container {margin: 20px;}
+
+#bookmark {float: right; width: 150px;}
+
+.quote {margin: 10px auto; font: 1.1em arial; background: #c5c; padding: 15px; width: 600px; color: #fff;}
+
+h1 {font: 36px impact; color: #ff66cc; margin-left: 20px;} 
+
+h2 {font: 24px impact; color: #ff66cc; margin-left: 20px;}  
+
+p {font: 0.8em arial; margin-left: 20px;}
+
+.copyright {font: 0.8em arial; text-align: right;}
+
+.copyright a {color: #ff66cc;}

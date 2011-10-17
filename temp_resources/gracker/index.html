@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+    <head>
+        <title>gracker</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="jquery.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="top_menu">
+            <div class="top_menu_item">Gracker</div>
+            <div class="top_menu_item">Crumbs</div>
+            <div class="top_menu_item">Help</div>
+            <div class="top_menu_item">Login</div>
+            <div class="clear"> </div>
+        </div>
+        <div id="main">
+        
+            <div id="header">
+                <div id="header_left">
+                    <img width="320" height="134" src="gracker.png">
+                </div>
+                <div id="header_right">
+                    <div class="dictionary_entry">
+                        <div class="dictionary_word">
+                            grack•er
+                        </div>
+                        <div class="dictionary_sound">
+                            ˈkrakər
+                        </div>
+                        <div class="clear"> </div>
+                        <div class="dictionary_description">
+                            a web-tracker written with groovy and grails.
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"> </div>           
+            </div> 
+            <div id="scroll_0" class="step float_left">0</div>
+	        <div class="float_left">
+	        	<b>Crumb Recipe</b>
+	        	<ul>
+	        		<li> <a href="#scroll_1" class="scroll">1x General Data </a> </li>
+	        		<li> <a href="#scroll_2" class="scroll">2x Crumb Data </a> </li>
+	        		<li> <a href="#scroll_3" class="scroll">3x Regular Expression </a> </li>
+	        		<li> <a href="#scroll_4" class="scroll">4x Test your Recipe </a> </li>
+	        		<li> <a href="#scroll_5" class="scroll">5x Taste your Crumb </a> </li>
+	        	</ul>
+			</div>
+	        <div class="clear"> </div>
+	        <hr>
+            <div id="scroll_1" class="step float_left">1</div>
+	        <div class="float_left">
+	        	<b>let's start with the recipe.</b>
+	        	<table>
+                	<tr>
+                		<td><input type="text" class="crumbs" id="name" name="name" value=""></td>
+                		<td>Name</td>
+                	</tr>
+                	
+                </table>
+                Tell us more about your delicious plans.</br>
+                <textarea class="crumbs focus textarea" id="description" name="description"></textarea>
+	        </div>
+	        <div class="clear"> </div>
+	        <hr>
+            <div id="scroll_2" class="step float_left">2</div>
+            <div class="float_left">
+                <b>add more ingredients.</b>
+                <table>
+                	<tr>
+                		<td><input type="text" class="crumbs" id="add_url" value="http://"></td>
+                		<td>URL of the Source</td>
+                	</tr>
+                	
+                	<tr>
+                		<td><input type="text" class="crumbs" id="add_refresh_time"></td>
+                		<td>Refresh Time in minutes</td>
+                	</tr>
+                </table>
+                </br>
+                
+             </div>
+		    <div class="clear"> </div>
+	        <hr>
+          	<div id="scroll_3" class="step float_left">3</div>
+		    <div class="float_left">
+		    	<b>do the magic!</b><br>
+		    	<div id="regex_magic"> </div>
+		    	
+		    </div>
+		    <div class="clear"> </div>
+	        <hr>
+	        <div id="scroll_4" class="step float_left">4</div>
+		    <div class="float_left">
+		    	<textarea id="data" name="data" class="crumb focus textarea"></textarea></br>
+                <input type="button" class="update_crumb" value="Update Crumb">
+                <input type="button" id="update_form" value="Update Form"> 
+                <div id="error_json" class="error">loading...</div>
+                <div id="error_email" class="error">loading...</div><br/>
+		    </div>
+		    <div class="clear"> </div>
+	        <hr>
+	        <div id="scroll_5" class="step float_left">5</div>
+		    <div class="float_left">
+		    	
+		    </div>
+		    <div class="clear"> </div>
+	        <hr>
+        </div>
+        <script type="text/javascript">
+        	
+	        function magicAddAttr(nr) {
+			    tmp = '';
+			    tmp += ' &nbsp;&nbsp;<input type="text" class="magic_tag"/>';
+			    tmp += '="<input type="text" class="magic_tag"/>"&nbsp; ';
+			    
+				$("#magic_attributes_"+nr).append(tmp);
+			    $('.magic_tag').keyup(editing_key_press);
+			    $('.magic_tag').keydown(editing_key_press);
+		    }
+		    
+		    function editing_key_press(e){
+				if(!e.which)editing_restore(this.parentNode);
+				var text = $('<span class="magic_tag">')
+				    .html($(this).val())
+				    .appendTo(this.parentNode);
+				var w = text.innerWidth();
+				text.remove();
+				if(w<=1) w = 15;
+				$(this).width(w+5);
+			}
+	        	
+        	$(document).ready(function(){
+	        	
+	        	var url = "";
+	        	var regex = "";
+	        	var refresh_time = "";
+	        	var json = "";
+	        	var attr = 0;
+	        	
+		        function updateSize() {
+		        	
+		        }
+		        
+	        	// chris macht
+	        	function initRegexMagic() {
+		        	obj = 0;
+					select = '<select id="magic_tag"><option value="0">&lt;tagname attrname="attrvalue" &gt;{data}&lt;/tagname&gt;</option>'
+					select += '<option value="1">&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;</option>'
+					select += '<option value="2">&lt;tagname attrname="{data}" /&gt;</option></select>';
+					button = '<input type="button" class="magic_add_tag" value="Add Tag">';
+					table = '<table id="magic_table"><tr><td>'+select+'</td><td>'+button+'</td></tr></table>';
+					$("#regex_magic").append(table);
+					$(".magic_add_tag").click(function(event){
+						tag = '';
+						switch(parseInt($("#magic_tag").val())) {
+							case 0: 
+							// TODO: add automatic change tag when changing the other
+								tag = '&lt;'
+								tag += '<input type="text" class="magic_tag"/>';
+								tag += '<span id="magic_attributes_'+attr+'"> </span>'
+								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
+								tag += '&gt;';
+								tag += '<input type="text" class="magic_tag"/>';
+								tag += '{data}'
+								tag += '<input type="text" class="magic_tag"/>';
+								tag += '';
+								tag += '&lt;/<input type="text" class="magic_tag"/>&gt;';
+								break;
+							case 1:
+								tag = '&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;';
+								break;
+							case 2:
+								tag = '&lt;tagname attrname="{data}" /&gt;';
+								break;
+							default:
+								tag = '<tr><td>error</td><td>error</td></tr>';
+								break;
+						}
+						tag = '<tr><td>'+tag+'</td><td></td></tr>';
+						$("#regex_magic").prepend(tag)
+						attr += 1;
+			     		$('.magic_tag').keyup(editing_key_press);
+			     		$('.magic_tag').keydown(editing_key_press);
+					});
+	        	}
+	        
+	        	// get the values from the JASON Field an save in the temp variables url,regex and refresh_time
+	        	function getJSON() {
+		        	try {
+		        		obj = jQuery.parseJSON(json);
+		        		url = obj.url;
+		        		regex = obj.regex;
+		        		refresh_time = obj.refresh_time;
+	        			$("#error_json").slideUp('fast');
+	        		} catch(e) {
+		        		$("#error_json").text(""+e);
+		        		$("#error_json").slideDown('fast');
+	        		}
+	        	}
+	        	
+	        	// create the JSON crumb
+	        	function updateCrumb() {
+	        		var str='{'; str+='\n';
+	        		str+='   "url": "'+$('#add_url').val()+'",'; str+='\n';
+	        		str+='   "regex": "'+$('#add_regex').val()+'",'; str+='\n';
+	        		str+='   "refresh_time": "'+$('#add_refresh_time').val()+'"'; str+='\n';
+	        		str+='}';
+	        		$('#data').val(str);
+	        		json = str;
+	        		getJSON();
+	        		checkForm();
+	        	}
+	        	
+	        	// parse the JSON crumb and use the temp variables to fill the forms
+	        	function updateForm() {
+	        		json = $('#data').val();
+	        		getJSON();   
+	        		checkForm();		
+	        		$('#add_url').val(url);
+					$('#add_regex').val(regex);
+					$('#add_refresh_time').val(refresh_time);
+	        	}
+	        	
+	        	// check the syntax and show errors
+		        function checkForm() {
+			        if(url.match(/^http:\/\//) || url=="") {
+		        		$("#error_email").slideUp('fast');
+			        }
+			        else {
+				        $("#error_email").text("Your URL should start with http://");
+		        		$("#error_email").slideDown('fast');
+			        }
+		        }
+		        
+	        	
+	        	// add the key event handlers for 
+	        	$('.crumbs').keyup(updateCrumb);
+	        	$('.crumbs').keydown(updateCrumb);
+	        	$('#data').keyup(updateForm);
+	        	$('#data').keydown(updateForm);
+	        	$('.update_crumb').click(updateCrumb);
+	        	$('#update_form').click(updateForm);
+	        	
+	        	// init the GUI
+	        	updateCrumb();
+	        	initRegexMagic();
+	        	$("#error_json").hide();
+	        	$("#error_email").hide();
+	     		
+        	
+				$(".scroll").click(function(event){
+					//prevent the default action for the click event
+					event.preventDefault();
+			
+					//get the full url - like mysitecom/index.htm#home
+					var full_url = this.href;
+			
+					//split the url by # and get the anchor target name - home in mysitecom/index.htm#home
+					var parts = full_url.split("#");
+					var trgt = parts[1];
+			
+					//get the top offset of the target anchor
+					var target_offset = $("#"+trgt).offset();
+					var target_top = target_offset.top;
+					target_top -= 20;
+					//goto that anchor by setting the body scroll top to anchor top
+					$('html, body').animate({scrollTop:target_top}, 500);
+				});
+			});
+
+        	
+        </script>
+    </body>
+<html>
