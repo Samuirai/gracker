@@ -24,6 +24,11 @@
 	
 	<s2ui:showFlash/>
         <div id="top_menu">
+        	<sec:ifLoggedIn>
+        		<div class="top_menu_item">
+        			<g:link controller="user" action="editProfile"><sec:loggedInUserInfo field="username"/></g:link>
+        		</div>
+        	</sec:ifLoggedIn>
             <div class="top_menu_item">
             	<g:link controller="home">Gracker</g:link>
             </div>
