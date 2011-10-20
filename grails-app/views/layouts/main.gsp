@@ -20,7 +20,7 @@
     <g:javascript src='jquery/jquery.jgrowl.js'/>
 	<g:javascript src='jquery/jquery.checkbox.js'/>
 	<g:javascript src='spring-security-ui.js'/>
-	<g:layoutBody/>
+
 	
 	<s2ui:showFlash/>
         <div id="top_menu">

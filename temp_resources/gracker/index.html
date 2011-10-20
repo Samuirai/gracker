@@ -130,6 +130,15 @@
 				if(w<=1) w = 15;
 				$(this).width(w+5);
 			}
+			
+			function /* Class */ RegexMagic(_typ,_tag,_attributes) {
+				var typ = _typ;
+				var tag = _tag;
+				var attributes = _attributes;
+				
+			}
+			
+			var magic
 	        	
         	$(document).ready(function(){
 	        	
@@ -149,8 +158,10 @@
 					select = '<select id="magic_tag"><option value="0">&lt;tagname attrname="attrvalue" &gt;{data}&lt;/tagname&gt;</option>'
 					select += '<option value="1">&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;</option>'
 					select += '<option value="2">&lt;tagname attrname="{data}" /&gt;</option></select>';
-					button = '<input type="button" class="magic_add_tag" value="Add Tag">';
-					table = '<table id="magic_table"><tr><td>'+select+'</td><td>'+button+'</td></tr></table>';
+					button1 = '<input type="button" class="magic_add_tag" value="Add Tag">';
+					button2 = '<input type="button" class="magic_create_regex" value="Create Regex">';
+					table = '<table id="magic_table"><tr><td>'+select+'</td><td>'+button1+'</td></tr></table>'+button2+'';
+					
 					$("#regex_magic").append(table);
 					$(".magic_add_tag").click(function(event){
 						tag = '';
