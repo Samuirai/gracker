@@ -169,10 +169,25 @@
 								tag += '&lt;/<input type="text" class="magic_tag"/>&gt;';
 								break;
 							case 1:
-								tag = '&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;';
+								//tag = '&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;';
+								tag = '&lt;'
+								tag += '<input type="text" class="magic_tag"/>';
+								tag += '<input type="text" class="magic_tag"/>="{data}"'
+								tag += '<span id="magic_attributes_'+attr+'"> </span>'
+								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
+								tag += '&gt;';
+								tag += '<input type="text" class="magic_tag"/>';
+								tag += '';
+								tag += '&lt;/<input type="text" class="magic_tag"/>&gt;';
 								break;
 							case 2:
-								tag = '&lt;tagname attrname="{data}" /&gt;';
+								tag = '&lt;'
+								tag += '<input type="text" class="magic_tag"/>';
+								tag += '<input type="text" class="magic_tag"/>="{data}"'
+								tag += '<span id="magic_attributes_'+attr+'"> </span>'
+								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
+								tag += '/&gt;';
+								//tag = '&lt;tagname attrname="{data}" /&gt;';
 								break;
 							default:
 								tag = '<tr><td>error</td><td>error</td></tr>';
