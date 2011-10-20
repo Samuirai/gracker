@@ -91,12 +91,27 @@ log4j = {
     warn   'org.mortbay.log'
 }
 
+// Configure Mail Plugin
+grails {
+	mail {
+	  host = "smtp.gmail.com"
+	  port = 465
+	  username = ""
+	  password = ""
+	  props = ["mail.smtp.auth":"true",
+			   "mail.smtp.socketFactory.port":"465",
+			   "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+			   "mail.smtp.socketFactory.fallback":"false"]
+	}
+ }
+
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.gracker.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.gracker.UserRole'
 grails.plugins.springsecurity.authority.className = 'org.gracker.Role'
 
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
+/*
 grails.plugins.springsecurity.interceptUrlMap = [
    '/user/**':    		['ROLE_ADMIN'],
    '/userRole/**':   	['ROLE_ADMIN'],
@@ -111,3 +126,4 @@ grails.plugins.springsecurity.interceptUrlMap = [
    '/login/**':     	['IS_AUTHENTICATED_ANONYMOUSLY'],
    '/logout/**':    	['IS_AUTHENTICATED_ANONYMOUSLY']
 ]
+*/

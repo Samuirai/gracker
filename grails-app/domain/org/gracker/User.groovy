@@ -28,8 +28,8 @@ class User {
 	static constraints = {
 		username(blank: false, unique: true, size:3..30)
 		password blank: false
-		forename(size:2..50)
-		surename(size:2..50)
+		forename(nullable: true, size:2..50)
+		surename(nullable:true, size:2..50)
 		email(blank: false, email: true, unique: true, size:5..120)
 		website(nullable: true, url: true, size:5..120)
 		dateCreated()
