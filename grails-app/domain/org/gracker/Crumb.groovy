@@ -7,7 +7,7 @@ class Crumb {
 	
 	String name
 	String attributesMapString
-	String dateCreated
+	Date dateCreated
 	String description
 	String refreshInterval
 	String regEx
@@ -16,7 +16,7 @@ class Crumb {
 	boolean isPublic
 		
     static constraints = {
-    	name(blank: false, size: 1..30)
+    	name(blank: false, siaze: 1..30)
 		attributesMapString()
 		dateCreated()
 		description(size: 0..200)
