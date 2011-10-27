@@ -23,7 +23,7 @@
         
         <div class="clear"> </div>
         
-        <g:form action="save" >
+        <g:form id="crumb_form" url="[action:'save']">
         <div id="scroll_0" class="step float_left">0</div>
 	        <div class="float_left">
 	        	<b>Crumb Recipe</b>
@@ -97,6 +97,10 @@
                 	<tr>
 		    			<td><g:checkBox name="isPublic" value="${crumbInstance?.isPublic}" /> public</td>
 		    			<td>buy us a coffee with a cracker, and get a premium account.</td>
+		    		</tr>
+		    		<tr>
+		    			<td><input type="button" id="test_crumb" value="Test Crumbs" /></td>
+		    			<td>bake your crumb</td>
 		    		</tr>
 		    		<tr>
 		    			<td><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></td>
@@ -261,7 +265,17 @@
 		        		$("#error_email").slideDown('fast');
 			        }
 		        }
-		        
+
+		        function testCrumb() {
+			        //alert($("#crumb_form").serialize())
+		        	$.ajax({
+						  type: "POST",
+						  url: "${createLink(controller:'crumb', action:'test')}",
+						  data: $("#crumb_form").serialize(),
+						}).done(function( msg ) {
+						  alert( "RETURN: \n" + msg );
+						});
+			        }
 	        	
 	        	// add the key event handlers for 
 	        	$('.crumbs').keyup(updateCrumb);
@@ -270,6 +284,7 @@
 	        	$('#data').keydown(updateForm);
 	        	$('.update_crumb').click(updateCrumb);
 	        	$('#update_form').click(updateForm);
+	        	$('#test_crumb').click(testCrumb);
 	        	
 	        	// init the GUI
 	        	updateCrumb();
@@ -297,6 +312,8 @@
 					$('html, body').animate({scrollTop:target_top}, 500);
 				});
 			});
+
+			
 
         	
         </script>

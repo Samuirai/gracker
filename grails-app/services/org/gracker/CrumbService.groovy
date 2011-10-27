@@ -47,5 +47,15 @@ class CrumbService {
 			return result;
 		}
 		
+		def test2(def request) {
+			def base = request.urlToParse ?: "error"
+			def url = new URL(base)
+			def connection = url.openConnection();
+			connection.setUseCaches(false);
+			def str = connection.content.text
+			
+			return str;	
+		}
+		
 
 }

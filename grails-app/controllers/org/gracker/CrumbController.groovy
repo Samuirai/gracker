@@ -9,7 +9,7 @@ class CrumbController {
 	def scaffold = Crumb
 	def crumbService
 	def test = {
-			render crumbService.track() as JSON
+			render crumbService.test2(params)
 		}
 
     def create = {
