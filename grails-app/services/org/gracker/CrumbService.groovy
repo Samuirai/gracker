@@ -48,4 +48,9 @@ class CrumbService {
 		}
 		
 
+		def updateNextDate(Crumb crumb){
+			//TODO richtig machen :D
+			crumb.nextDate = new Date() + 10.Seconds;
+			return crumb
+		}
 }
