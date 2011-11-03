@@ -7,6 +7,7 @@ class Crumb implements Comparable<Crumb>{
 	
 	String name
 	String attributesMapString
+
 	String description
 	String refreshInterval
 	String regEx
@@ -18,7 +19,7 @@ class Crumb implements Comparable<Crumb>{
 	Date dateCreated
 		
     static constraints = {
-    	name(blank: false, size: 1..30)
+    	name(blank: false, siaze: 1..30)
 		attributesMapString()
 		description(size: 0..200)
 		refreshInterval()

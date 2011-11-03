@@ -4,6 +4,20 @@ html * {
 }
 
 /* From Fabis CSS */
+
+
+#top_menu .top_menu_item a {line-height: 33px; width: 100%; text-decoration: none; color: #ddd;},
+#top_menu .top_menu_item a:link {text-decoration: none; color: #ddd;},
+#top_menu .top_menu_item a:visited { text-decoration:none; color:#ddd; }
+#top_menu .top_menu_item a:hover { text-decoration:none; color: white; color:#fff; font-weight: normal;}
+#top_menu .top_menu_item a:active { text-decoration:none; color:#fff; font-weight: normal;}
+#top_menu .top_menu_item a:focus { text-decoration:none; color: white; color:#fff; font-weight: normal;}
+
+table.clean {
+    border: none;
+    width: auto;
+}
+
 body {
     font-size: 12pt;
     margin: 0;
@@ -14,24 +28,17 @@ body {
 #top_menu {
     background-color: #222222;
     color: #cccccc;
-    height: 33px;
 }
-
-#top_menu .top_menu_item a {line-height: 33px; width: 100%; text-decoration: none; color: #ddd;},
-#top_menu .top_menu_item a:link {text-decoration: none; color: #ddd;},
-#top_menu .top_menu_item a:visited { text-decoration:none; color:#ddd; }
-#top_menu .top_menu_item a:hover { text-decoration:none; color: white; color:#fff; font-weight: normal;}
-#top_menu .top_menu_item a:active { text-decoration:none; color:#fff; font-weight: normal;}
-#top_menu .top_menu_item a:focus { text-decoration:none; color: white; color:#fff; font-weight: normal;}
 
 #top_menu .top_menu_item { 
     background-color: #222222;
     float: left;
-    padding: 0px 10px;
+    padding: 3px 10px;
 }
 
 #top_menu .top_menu_item:hover { 
     background-color: #333333;
+    color: #ffffff;
     cursor: pointer;
 }   
 
@@ -47,6 +54,133 @@ body {
     width: 1000px;
     margin: 30px auto;
     /* background-color: #cccccc; */
+}
+
+#main #header #header_left {
+    width: 350px;
+    float: left;
+}
+
+#main #header #header_right {
+    border-left: 1px solid #222222;
+    float: left;
+    width: 590px;
+    padding-left: 30px;
+    padding-top: 30px;
+    height: 84px;
+    margin: 10px 0;
+}
+
+.dictionary_entry .dictionary_word {
+    color: #222222;
+    font-size: 1.2em;
+    float: left;
+}
+
+.dictionary_entry .dictionary_sound {
+    color: #888888;
+    float: left;
+    font-size: 1.1em;
+    /* border-left: 1px solid #888888; */
+    /* border-right: 1px solid #888888; */
+    padding: 0 10px;
+    margin: 0 10px;
+}
+
+.dictionary_entry .dictionary_description {
+    color: #222222;
+}
+
+
+input[type=button],input[type=submit] {
+	background-color: whiteSmoke;
+	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
+	border-color: #999999;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	color: #666;
+	cursor: pointer;
+	display: inline-block;
+	font-family: arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	height: 29px;
+	line-height: 27px;
+	min-width: 54px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	width: 94px;
+	margin: 3px 5px;
+}
+
+input[type=button].small,input[type=submit].small {
+	background-color: whiteSmoke;
+	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
+	border-color: #999999;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	color: #666;
+	cursor: pointer;
+	display: inline-block;
+	font-family: arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 11px;
+	
+	min-width: 15px;
+	padding: 0px;
+	text-align: center;
+	margin: 0px 0px;
+	width: auto;
+	height: auto;
+}
+
+.magic_tag {
+	border: none;
+	font-family: monospace;
+	width: 20px;
+	color: #000000;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.magic_tag:focus {
+	border: 1px solid #d3d3d3;
+}
+
+input[type=button]:hover,input[type=submit]:hover {
+	color: #444;
+	border-color: #888888;
+}
+
+.textarea {
+	padding: 4px;
+	width: 400px;
+	height: 150px;
+}
+
+.step {
+	font-size: 10em;
+	line-height: 1em;
+	margin-right: 50px;
+	color: #d3d3d3;
+}
+
+.error {
+	background-color: #ff9999;
+	color: #000000;
+	padding: 5px;
+	border: 1px dashed #ff3333;
+}
+
+hr {
+	color: #d3d3d3;
+	background-color: #d3d3d3;
+	height: 1px;
+	margin: 5px 0;
 }
 
 

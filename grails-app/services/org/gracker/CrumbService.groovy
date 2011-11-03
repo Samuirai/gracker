@@ -47,6 +47,22 @@ class CrumbService {
 			return result;
 		}
 		
+		def test2(def url) {
+			
+			def str = ""
+			try {
+				def parsed_url = new URL(url)
+				def connection = parsed_url.openConnection();
+				connection.setUseCaches(false);
+				str = connection.content.text
+			} catch (MalformedURLException e)
+			{
+				str = "error: "+url
+			}
+			
+			return str;	
+		}
+		
 
 		def updateNextDate(Crumb crumb){
 			//TODO richtig machen :D
