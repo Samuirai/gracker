@@ -9,7 +9,8 @@ class CrumbController {
 	def scaffold = Crumb
 	def crumbService
 	def test = {
-			render crumbService.test2(params)
+		
+			render crumbService.test2(params.urlToParse )
 		}
 
     def create = {

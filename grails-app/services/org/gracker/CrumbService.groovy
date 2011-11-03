@@ -47,12 +47,18 @@ class CrumbService {
 			return result;
 		}
 		
-		def test2(def request) {
-			def base = request.urlToParse ?: "error"
-			def url = new URL(base)
-			def connection = url.openConnection();
-			connection.setUseCaches(false);
-			def str = connection.content.text
+		def test2(def url) {
+			
+			def str = ""
+			try {
+				def parsed_url = new URL(url)
+				def connection = parsed_url.openConnection();
+				connection.setUseCaches(false);
+				str = connection.content.text
+			} catch (MalformedURLException e)
+			{
+				str = "error: "+url
+			}
 			
 			return str;	
 		}
