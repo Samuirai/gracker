@@ -46,6 +46,9 @@
 				<div class="top_menu_item">
 					<g:link controller="userRole">UserRoles</g:link>
 				</div>
+				<div class="top_menu_item">
+					<g:link controller="scheduler">Scheduler</g:link>
+				</div>
 			</sec:ifAllGranted>
 			
 
