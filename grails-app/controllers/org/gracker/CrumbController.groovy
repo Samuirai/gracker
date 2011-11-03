@@ -10,7 +10,7 @@ class CrumbController {
 	def crumbService
 	def test = {
 		
-			render crumbService.test2(params.urlToParse )
+			render crumbService.PonyMagic(params.urlToParse, params.regEx )
 		}
 
     def create = {

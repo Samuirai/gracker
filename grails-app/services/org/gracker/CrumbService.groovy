@@ -1,5 +1,6 @@
 package org.gracker
 
+
 class CrumbService {
 
     static transactional = true
@@ -47,22 +48,33 @@ class CrumbService {
 			return result;
 		}
 		
-		def test2(def url) {
+		
+		
+		def PonyMagic(def url,def regex) {
 			
-			def str = ""
+			def regexMap = [:]
 			try {
 				def parsed_url = new URL(url)
 				def connection = parsed_url.openConnection();
 				connection.setUseCaches(false);
-				str = connection.content.text
+				def str = connection.content.text
+				
+				def matcher = (str =~ regex)
+				
+				
+				if(matcher.size()>0) {
+					for(int i=1; i<matcher[0].size(); ++i){
+						regexMap.put(i, matcher[0].getAt(i))
+					}
+				}
+				
 			} catch (MalformedURLException e)
 			{
-				str = "error: "+url
+				regexMap = [:]
 			}
 			
-			return str;	
+			return regexMap;	
 		}
-		
 
 		def updateNextDate(Crumb crumb){
 			//TODO richtig machen :D
