@@ -4,11 +4,11 @@ class Job {
 
 	static belongsTo = [crumb: Crumb]
 	
-	Date   parsingTime
+	Date   dateCreated
 	String result
 	
     static constraints = {
-		parsingTime()
+		dateCreated()
 		result(size: 0..9001)
 	}
 
