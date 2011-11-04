@@ -2,12 +2,12 @@ package org.gracker
 
 class Crumb implements Comparable<Crumb>{
 
+	String name
+	String attributesMapString
+	
 	static belongsTo = [user: User]
 	static hasMany   = [jobs: Job]
 	
-	String name
-	String attributesMapString
-
 	String description
 	String refreshInterval
 	String regEx
