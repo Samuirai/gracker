@@ -63,6 +63,26 @@
                         <div class="clear"> </div>
         </div>
         <div id="main">
+	        <div id="header">
+	                <div id="header_left">
+	                    <img width="320" height="134" src="${resource(dir:'images',file:'gracker.png')}">
+	                </div>
+	                <div id="header_right">
+	                    <div class="dictionary_entry">
+	                        <div class="dictionary_word">
+	                            grack•er
+	                        </div>
+	                        <div class="dictionary_sound">
+	                            ˈkrakər
+	                        </div>
+	                        <div class="clear"> </div>
+	                        <div class="dictionary_description">
+	                            a web-tracker written with groovy and grails.
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="clear"> </div>           
+	            </div> 
         	<g:layoutBody />
         </div>
     </body>
