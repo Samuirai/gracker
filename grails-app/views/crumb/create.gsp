@@ -62,10 +62,45 @@
                 	</tr>
                 	
                 	<tr>
-                		<td><g:textField name="refreshInterval" class="crumbs" id="add_refresh_time" value="${crumbInstance?.refreshInterval}" /></td>
+                		<td>
+                			<table>
+                				<tr>
+                					<td>days</td>
+                					<td>hours</td>
+                					<td>mins</td>
+                					<td>secs</td>
+                					<td></td>
+                				</tr>
+                				<tr>
+                					<td><g:textField name="refresh_time_day" class="crumbs" id="refresh_time_day" size="1" value="0" /></td>
+                					<td><g:textField name="refresh_time_hour" class="crumbs" id="refresh_time_hour" size="1" value="0" /></td>
+                					<td><g:textField name="refresh_time_minute" class="crumbs" id="refresh_time_minute" size="1" value="0" /></td>
+                					<td><g:textField name="refresh_time_seconds" class="crumbs" id="refresh_time_seconds" size="1" value="0" disabled="disabled" /></td>
+                					<td><input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" checked="checked" value="weekly"> weekly</br><input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="monthly"> monthly</td>
+                				</tr>
+                			</table>
+                		</td>
                 		<td>Refresh Time in minutes</td>
+                		
                 	</tr>
                 </table>
+                <script>
+					function refreshTime(e) {
+						if(e.value == "monthly") {
+							$("#refresh_time_day").attr("disabled", false);
+							$("#refresh_time_hour").attr("disabled", false);
+							$("#refresh_time_minute").attr("disabled", false);
+							$("#refresh_time_seconds").attr("disabled", false);
+						} else if(e.value == "weekly") {
+
+							$("#refresh_time_day").attr("disabled", true);
+							$("#refresh_time_hour").attr("disabled", false);
+							$("#refresh_time_minute").attr("disabled", false);
+							$("#refresh_time_seconds").attr("disabled", false);
+						}
+						
+					}
+                </script>
                 </br>
                 
              </div>
@@ -115,11 +150,38 @@
         </g:form>
         
         <script type="text/javascript">
-        	
+        
+	        var magic;
+			var attr = 0;
+			var ponyMagic = new Array();
+			
+			function parseRegex() {
+				
+				for(nr=0; nr<attr; ++nr){
+					i = 1;
+					do{
+						alert("#magic_tag"+i+"_"+nr)
+						if($("#magic_tag"+i+"_"+nr).length){ 
+							alert($("#magic_tag"+i+"_"+nr).attr("pony"));
+						}
+						i++;
+					}while ($("#magic_tag"+i+"_"+nr).length);
+				}
+			}
+        
+			function getAnzahl(nr) {
+				i=1;
+				while($("#magic_tag"+i+"_"+nr).length) {
+					i++;
+				}
+				return i;
+			}
+    	
 	        function magicAddAttr(nr) {
+		        anz = getAnzahl(nr);
 			    tmp = '';
-			    tmp += ' &nbsp;&nbsp;<input type="text" class="magic_tag"/>';
-			    tmp += '="<input type="text" class="magic_tag"/>"&nbsp; ';
+			    tmp += ' &nbsp;&nbsp;<input pony="attr_name" type="text" class="magic_tag" id="magic_tag'+anz+'_'+nr+'" />';
+			    tmp += '="<input type="text" pony="attr_value" class="magic_tag" id="magic_tag'+(anz+1)+'_'+nr+'" />"&nbsp; ';
 			    
 				$("#magic_attributes_"+nr).append(tmp);
 			    $('.magic_tag').keyup(editing_key_press);
@@ -144,20 +206,22 @@
 				
 			}
 			
-			var magic
-	        	
+			
+			
         	$(document).ready(function(){
 	        	
 	        	var url = "";
 	        	var regex = "";
 	        	var refresh_time = "";
 	        	var json = "";
-	        	var attr = 0;
+	        	
 	        	
 		        function updateSize() {
 		        	
 		        }
 		        
+		        
+		        var magicNr = 0;
 	        	// chris macht
 	        	function initRegexMagic() {
 		        	obj = 0;
@@ -165,7 +229,7 @@
 					select += '<option value="1">&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;</option>'
 					select += '<option value="2">&lt;tagname attrname="{data}" /&gt;</option></select>';
 					button1 = '<input type="button" class="magic_add_tag" value="Add Tag">';
-					button2 = '<input type="button" class="magic_create_regex" value="Create Regex">';
+					button2 = '<input type="button" class="magic_create_regex" onclick="parseRegex()" value="Create Regex">';
 					table = '<table id="magic_table" class="clean"><tr><td>'+select+'</td><td>'+button1+'</td></tr></table>'+button2+'';
 					
 					$("#regex_magic").append(table);
@@ -173,34 +237,35 @@
 						tag = '';
 						switch(parseInt($("#magic_tag").val())) {
 							case 0: 
+								
 							// TODO: add automatic change tag when changing the other
 								tag = '&lt;'
-								tag += '<input type="text" class="magic_tag"/>';
+								tag += '<input type="text" pony="tag_name" class="magic_tag" id="magic_tag1_'+attr+'" />';
 								tag += '<span id="magic_attributes_'+attr+'"> </span>'
 								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
 								tag += '&gt;';
-								tag += '<input type="text" class="magic_tag"/>';
+								tag += '<input type="text" pony="prefix" class="magic_tag" id="magic_tag2_'+attr+'" />';
 								tag += '{data}'
-								tag += '<input type="text" class="magic_tag"/>';
+								tag += '<input type="text" pony="suffix" class="magic_tag" id="magic_tag3_'+attr+'" />';
 								tag += '';
-								tag += '&lt;/<input type="text" class="magic_tag"/>&gt;';
+								tag += '&lt;/<input type="text" pony="tag_name" class="magic_tag" id="magic_tag4_'+attr+'"/>&gt;';
 								break;
 							case 1:
 								//tag = '&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;';
 								tag = '&lt;'
-								tag += '<input type="text" class="magic_tag"/>';
-								tag += '<input type="text" class="magic_tag"/>="{data}"'
+								tag += '<input type="text" pony="tag_name" class="magic_tag" id="magic_tag1_'+attr+'" />';
+								tag += '<input type="text" pony="attr_name" class="magic_tag" id="magic_tag2_'+attr+'" />="{data}"'
 								tag += '<span id="magic_attributes_'+attr+'"> </span>'
 								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
 								tag += '&gt;';
-								tag += '<input type="text" class="magic_tag"/>';
+								tag += '<input type="text" pony="tag_value" class="magic_tag" id="magic_tag3_'+attr+'" />';
 								tag += '';
-								tag += '&lt;/<input type="text" class="magic_tag"/>&gt;';
+								tag += '&lt;/<input type="text" pony="tag_name" class="magic_tag" id="magic_tag4_'+attr+'"/>&gt;';
 								break;
 							case 2:
 								tag = '&lt;'
-								tag += '<input type="text" class="magic_tag"/>';
-								tag += '<input type="text" class="magic_tag"/>="{data}"'
+								tag += '<input type="text" pony="tag_name" class="magic_tag" id="magic_tag1_'+attr+'"/>';
+								tag += '<input type="text" pony="attr_name" class="magic_tag" id="magic_tag2_'+attr+'"/>="{data}"'
 								tag += '<span id="magic_attributes_'+attr+'"> </span>'
 								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
 								tag += '/&gt;';
