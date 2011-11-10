@@ -18,11 +18,11 @@ class BootStrap {
 		new UserRole(user: chris, role: admin_role).save();
 		new UserRole(user: fabi, role: admin_role).save();
 		
-        def filipsCrumb = new Crumb(name: 'myZitatTestCrumb', attributesMapString:'',description:'No Description', refreshInterval: "5 * * * * * *",
+        def filipsCrumb = new Crumb(name: 'myZitatTestCrumb', attributesMapString:'[1:[Name:"Content", Type:"String"], 2:[Name:"Author", Type:"String"]]',description:'No Description', refreshInterval: "5 * * * * * *",
         regEx:/[\n\r.]*<p class="quote">(.*)<br><br>(.*)<\/p>/,urlToParse: 'http://www.randomquotes.net/', isPublic: true, user: filip, validThrough: new Date()+10).save();
-		def filipsCrumb2 = new Crumb(name: 'testCrumb2', attributesMapString:'',description:'No Description', refreshInterval: "30 * * * * * *",
+		def filipsCrumb2 = new Crumb(name: 'testCrumb2', attributesMapString:'[1:[Name:"Content", Type:"String"], 2:[Name:"Author", Type:"String"]]',description:'No Description', refreshInterval: "30 * * * * * *",
 		regEx:/[\n\r.]*<p class="quote">(.*)<br><br>(.*)<\/p>/,urlToParse: 'http://www.randomquotes.net/', isPublic: true, user: filip, validThrough: new Date()+10).save();
-		def filips3Crumb = new Crumb(name: 'testCrumb3', attributesMapString:'',description:'No Description', refreshInterval: "* 1 * * * * *",
+		def filips3Crumb = new Crumb(name: 'testCrumb3', attributesMapString:'[1:[Name:"Content", Type:"String"], 2:[Name:"Author", Type:"String"]]',description:'No Description', refreshInterval: "* 1 * * * * *",
 		regEx:/[\n\r.]*<p class="quote">(.*)<br><br>(.*)<\/p>/,urlToParse: 'http://www.randomquotes.net/', isPublic: true, user: filip, validThrough: new Date()+10).save();
 
 		def theScheduler = new Scheduler(name: 'mainScheduler').save();
