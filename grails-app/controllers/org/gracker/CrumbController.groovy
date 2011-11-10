@@ -12,6 +12,7 @@ class CrumbController {
 		}
 
     def create = {
+		System.out.println(params);
         def crumbInstance = new Crumb(params)
         return [crumbInstance: crumbInstance]
     }

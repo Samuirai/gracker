@@ -48,7 +48,7 @@
                 	
                 </table>
                 Tell us more about your delicious plans.</br>
-                <g:textArea name="description" id="add_description" class="crumbs" maxlength="200" value="${crumbInstance?.description}" />
+                <textarea name="description" id="add_description" class="crumbs focus textarea" > </textarea>
 	        </div>
 	        <div class="clear"> </div>
 	        <hr>
@@ -57,7 +57,7 @@
                 <b>add more ingredients.</b>
                 <table class="clean">
                 	<tr>
-                		<td><g:textField name="urlToParse" id="add_url" class="crumbs" maxlength="120" value="${crumbInstance?.urlToParse}" /></td>
+                		<td><g:textField name="urlToParse" size="63" id="add_url" class="crumbs" value="${crumbInstance?.urlToParse}" /></td>
                 		<td>URL of the Source</td>
                 	</tr>
                 	
@@ -65,40 +65,61 @@
                 		<td>
                 			<table>
                 				<tr>
-                					<td>days</td>
+                					<td>day</td>
                 					<td>hours</td>
                 					<td>mins</td>
                 					<td>secs</td>
                 					<td></td>
                 				</tr>
                 				<tr>
-                					<td><g:textField name="refresh_time_day" class="crumbs" id="refresh_time_day" size="1" value="0" /></td>
-                					<td><g:textField name="refresh_time_hour" class="crumbs" id="refresh_time_hour" size="1" value="0" /></td>
-                					<td><g:textField name="refresh_time_minute" class="crumbs" id="refresh_time_minute" size="1" value="0" /></td>
-                					<td><g:textField name="refresh_time_seconds" class="crumbs" id="refresh_time_seconds" size="1" value="0" disabled="disabled" /></td>
-                					<td><input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" checked="checked" value="weekly"> weekly</br><input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="monthly"> monthly</td>
+                					<td><g:textField name="refresh_time_day" class="crumbs cronjob" id="refresh_time_day" size="1" value="*" /></td>
+                					<td><g:textField name="refresh_time_hour" class="crumbs cronjob" id="refresh_time_hour" size="1" value="*" /></td>
+                					<td><g:textField name="refresh_time_minute" class="crumbs cronjob" id="refresh_time_minute" size="1" value="*" /></td>
+                					<td><g:textField name="refresh_time_seconds" class="crumbs cronjob" id="refresh_time_seconds" size="1" value="*" disabled="disabled" /></td>
+                					<td><input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" id="refresh_time_weekly" checked="checked" value="daily"> daily</br><input id="refresh_time_daily" onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="weekly"> weekly</td>
+                					<input type="hidden" name="refreshInterval" id="refreshInterval" value="* * * * * *" />
                 				</tr>
                 			</table>
                 		</td>
-                		<td>Refresh Time in minutes</td>
+                		<td>Refresh Time in minutes<br><br>* or number (0, 1, 2, 3, ...)</td>
                 		
+                	</tr>
+                	<tr>
+                		<td>
+                			<textarea name="attributesMapString" id="attributesMapString" cols="40" rows="5" class="crumbs focus textarea" > </textarea>
+                		</td>
+                		<td>
+                			What are your ingredients?<br>Example:<br><br> [<br> 1: [Name: "Quote", Type: "String"],<br> 2: [Name: "Author", Type: "String"]<br>]
+                		</td>
                 	</tr>
                 </table>
                 <script>
+
+					function updateRefreshInterval(){
+						if($("#refresh_time_weekly").attr("checked") == "checked") {
+							$("#refreshInterval").val($("#refresh_time_seconds").val()+" "+$("#refresh_time_minute").val()+" "+$("#refresh_time_hour").val()+" "+$("#refresh_time_day").val()+" * 1")
+						} else if($("#refresh_time_daily").attr("checked") == "checked") {
+							$("#refreshInterval").val($("#refresh_time_seconds").val()+" "+$("#refresh_time_minute").val()+" "+$("#refresh_time_hour").val()+" "+$("#refresh_time_day").val()+" 1 *")
+						}
+					}
+                
+               		$('.cronjob').keyup(updateRefreshInterval);
 					function refreshTime(e) {
-						if(e.value == "monthly") {
+						if(e.value == "weekly") {
 							$("#refresh_time_day").attr("disabled", false);
 							$("#refresh_time_hour").attr("disabled", false);
 							$("#refresh_time_minute").attr("disabled", false);
 							$("#refresh_time_seconds").attr("disabled", false);
-						} else if(e.value == "weekly") {
+						} else if(e.value == "daily") {
 
 							$("#refresh_time_day").attr("disabled", true);
+							$("#refresh_time_day").val("*")
 							$("#refresh_time_hour").attr("disabled", false);
 							$("#refresh_time_minute").attr("disabled", false);
 							$("#refresh_time_seconds").attr("disabled", false);
+							
 						}
-						
+						updateRefreshInterval();
 					}
                 </script>
                 </br>
@@ -110,32 +131,27 @@
 		    <div class="float_left">
 		    	<b>do the magic!</b><br>
 		    	<div id="regex_magic"> </div>
-		    	<g:textArea name="regEx" id="add_regex" class="crumbs" cols="40" rows="5" value="${crumbInstance?.regEx}" />
+		    	<textarea name="regEx" id="add_regex" cols="40" rows="5" class="crumbs focus textarea" > </textarea>
 		    	
 		    </div>
 		    <div class="clear"> </div>
 	        <hr>
 	        <div id="scroll_4" class="step float_left">4</div>
 		    <div class="float_left">
-		    	<textarea id="data" name="data" class="crumb focus textarea"></textarea></br>
-                <input type="button" class="update_crumb" value="Update Crumb">
-                <input type="button" id="update_form" value="Update Form"> <br/>
+		    	<b>test your recipe</b> </br>
+		    	<textarea id="data" name="data" cols="40" rows="5" class="crumb focus textarea"></textarea></br>
+                <input type="button" id="test_crumb" value="Test Crumb" />
 		    </div>
 		    <div class="clear"> </div>
 	        <hr>
 	        <div id="scroll_5" class="step float_left">5</div>
 		    <div class="float_left">
-		    
-                <div id="error_json" class="error">loading...</div>
-                <div id="error_email" class="error">loading...</div>
+				
+		    	<b>mmmhhh... tastes delicious</b> </br>
 		    	<table class="clean">
                 	<tr>
 		    			<td><g:checkBox name="isPublic" value="${crumbInstance?.isPublic}" /> public</td>
 		    			<td>buy us a coffee with a cracker, and get a premium account.</td>
-		    		</tr>
-		    		<tr>
-		    			<td><input type="button" id="test_crumb" value="Test Crumbs" /></td>
-		    			<td>bake your crumb</td>
 		    		</tr>
 		    		<tr>
 		    			<td><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></td>
@@ -153,35 +169,96 @@
         
 	        var magic;
 			var attr = 0;
-			var ponyMagic = new Array();
+			var ponyMagic = [];
 			
+			var associativeArray = [];
+        	associativeArray["one"] = "First";
+        	associativeArray["two"] = "Second";
+        	associativeArray["three"] = "Third";
+        	for (i in associativeArray) { 
+        	   document.writeln(i+':'+associativeArray[i]+', '); 
+        	   // outputs: one:First, two:Second, three:Third
+        	};
+
+			function compare(a,b) {
+				alert("a: "+a+"\n"+"b: "+b)
+			}
+        	
 			function parseRegex() {
-				
+				ponyMagic = [];
 				for(nr=0; nr<attr; ++nr){
 					i = 1;
 					do{
-						alert("#magic_tag"+i+"_"+nr)
+						//$("#add_regex").val($("#add_regex").val()+"#magic_tag"+i+"_"+nr)
 						if($("#magic_tag"+i+"_"+nr).length){ 
-							alert($("#magic_tag"+i+"_"+nr).attr("pony"));
+							ponyMagic.push($("#magic_tag"+i+"_"+nr).attr("pony"))
+							ponyMagic.push($("#magic_tag"+i+"_"+nr).val())
+							//ponyMagic[""+nr+","+i+",key,tag"] = $("#magic_tag"+i+"_"+nr).attr("pony")
+							//ponyMagic[""+nr+","+i+",val,tag"] = $("#magic_tag"+i+"_"+nr).val()
+							j = 0;
+							if($("#magic_tag"+i+"_"+nr).attr("pony")=="tag_name_start") {
+								do{
+									if($("#magic_attr"+j+"_"+nr).length){
+										ponyMagic.push($("#magic_attr"+j+"_"+nr).attr("pony"))
+										ponyMagic.push($("#magic_attr"+j+"_"+nr).val())
+										if($("#magic_attr"+j+"_"+nr).attr("pony") == "attr_value") ponyMagic.push("attr_value_end")
+										//ponyMagic[""+nr+","+j+",key,attr"] = $("#magic_attr"+j+"_"+nr).attr("pony")
+										//ponyMagic[""+nr+","+j+",val,attr"] = $("#magic_attr"+j+"_"+nr).val()
+									}
+									j++
+								} while ($("#magic_attr"+j+"_"+nr).length);
+							}
 						}
 						i++;
 					}while ($("#magic_tag"+i+"_"+nr).length);
+					ponyMagic.push("ende");
 				}
+				var fluttershy = ""
+				// <p class="quote">(.*)<br><br>(.*)<\/p>
+				/*
+					0,1,key,tag: tag_name_start
+					0,1,val,tag: 
+					0,2,key,tag: prefix
+					0,2,val,tag: 
+					0,3,key,tag: suffix
+					0,3,val,tag: 
+					0,4,key,tag: tag_name_end
+					0,4,val,tag: 
+					0,0,key,attr: attr_name
+					0,0,val,attr: 
+					0,1,key,attr: attr_value
+					0,1,val,attr: 
+				*/
+				for (j in ponyMagic) { 
+					if(ponyMagic[j]=="tag_name_start") fluttershy += "<"
+					else if(ponyMagic[j]=="attr_name") fluttershy += " "
+					else if(ponyMagic[j]=="attr_value") fluttershy += '="'
+					else if(ponyMagic[j]=="attr_value_end") fluttershy += '"'
+					else if(ponyMagic[j]=="prefix") fluttershy += ">"
+					else if(ponyMagic[j]=="suffix") fluttershy += "(.*)"
+					else if(ponyMagic[j]=="ende") fluttershy += ">"
+					else if(ponyMagic[j]=="tag_name_end") fluttershy += "<\\\/"
+					else fluttershy += ponyMagic[j]
+					$("#add_regex").val($("#add_regex").val()+"\n"+j+": "+ponyMagic[j]);
+				}
+				$("#add_regex").val(fluttershy)
+				
 			}
+			
         
 			function getAnzahl(nr) {
-				i=1;
-				while($("#magic_tag"+i+"_"+nr).length) {
+				i=0;
+				while($("#magic_attr"+i+"_"+nr).length) {
 					i++;
 				}
 				return i;
 			}
-    	
+			
 	        function magicAddAttr(nr) {
 		        anz = getAnzahl(nr);
 			    tmp = '';
-			    tmp += ' &nbsp;&nbsp;<input pony="attr_name" type="text" class="magic_tag" id="magic_tag'+anz+'_'+nr+'" />';
-			    tmp += '="<input type="text" pony="attr_value" class="magic_tag" id="magic_tag'+(anz+1)+'_'+nr+'" />"&nbsp; ';
+			    tmp += ' &nbsp;&nbsp;<input pony="attr_name" type="text" class="magic_tag" id="magic_attr'+anz+'_'+nr+'" />';
+			    tmp += '="<input type="text" pony="attr_value" class="magic_tag" id="magic_attr'+(anz+1)+'_'+nr+'" />"&nbsp; ';
 			    
 				$("#magic_attributes_"+nr).append(tmp);
 			    $('.magic_tag').keyup(editing_key_press);
@@ -240,7 +317,7 @@
 								
 							// TODO: add automatic change tag when changing the other
 								tag = '&lt;'
-								tag += '<input type="text" pony="tag_name" class="magic_tag" id="magic_tag1_'+attr+'" />';
+								tag += '<input type="text" pony="tag_name_start" class="magic_tag" id="magic_tag1_'+attr+'" />';
 								tag += '<span id="magic_attributes_'+attr+'"> </span>'
 								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
 								tag += '&gt;';
@@ -248,26 +325,26 @@
 								tag += '{data}'
 								tag += '<input type="text" pony="suffix" class="magic_tag" id="magic_tag3_'+attr+'" />';
 								tag += '';
-								tag += '&lt;/<input type="text" pony="tag_name" class="magic_tag" id="magic_tag4_'+attr+'"/>&gt;';
+								tag += '&lt;/<input type="text" pony="tag_name_end" class="magic_tag" id="magic_tag4_'+attr+'"/>&gt;';
 								break;
 							case 1:
 								//tag = '&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;';
 								tag = '&lt;'
-								tag += '<input type="text" pony="tag_name" class="magic_tag" id="magic_tag1_'+attr+'" />';
-								tag += '<input type="text" pony="attr_name" class="magic_tag" id="magic_tag2_'+attr+'" />="{data}"'
+								tag += '<input type="text" pony="tag_name_start" class="magic_tag" id="magic_tag1_'+attr+'" />';
 								tag += '<span id="magic_attributes_'+attr+'"> </span>'
 								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
+								tag += '<input type="text" pony="attr_name" class="magic_tag" id="magic_tag2_'+attr+'" />="{data}"'
 								tag += '&gt;';
 								tag += '<input type="text" pony="tag_value" class="magic_tag" id="magic_tag3_'+attr+'" />';
 								tag += '';
-								tag += '&lt;/<input type="text" pony="tag_name" class="magic_tag" id="magic_tag4_'+attr+'"/>&gt;';
+								tag += '&lt;/<input type="text" pony="tag_name_end" class="magic_tag" id="magic_tag4_'+attr+'"/>&gt;';
 								break;
 							case 2:
 								tag = '&lt;'
-								tag += '<input type="text" pony="tag_name" class="magic_tag" id="magic_tag1_'+attr+'"/>';
-								tag += '<input type="text" pony="attr_name" class="magic_tag" id="magic_tag2_'+attr+'"/>="{data}"'
+								tag += '<input type="text" pony="tag_name_start" class="magic_tag" id="magic_tag1_'+attr+'"/>';
 								tag += '<span id="magic_attributes_'+attr+'"> </span>'
 								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
+								tag += '<input type="text" pony="attr_name" class="magic_tag" id="magic_tag2_'+attr+'"/>="{data}"'
 								tag += '/&gt;';
 								//tag = '&lt;tagname attrname="{data}" /&gt;';
 								break;
@@ -280,10 +357,12 @@
 						attr += 1;
 			     		$('.magic_tag').keyup(editing_key_press);
 			     		$('.magic_tag').keydown(editing_key_press);
+			     		$('.magic_tag').keypress(editing_key_press);
 					});
 	        	}
 	        
 	        	// get the values from the JASON Field an save in the temp variables url,regex and refresh_time
+	        	// DELETED!
 	        	function getJSON() {
 		        	try {
 		        		obj = jQuery.parseJSON(json);
@@ -298,6 +377,7 @@
 	        	}
 	        	
 	        	// create the JSON crumb
+	        	// DELETED!
 	        	function updateCrumb() {
 	        		var str='{'; str+='\n';
 	        		str+='   "url": "'+$('#add_url').val()+'",'; str+='\n';
@@ -338,21 +418,21 @@
 						  url: "${createLink(controller:'crumb', action:'test')}",
 						  data: $("#crumb_form").serialize(),
 						}).done(function( msg ) {
-						  alert( "RETURN: \n" + msg );
+							$('#data').val( msg );
 						});
 			        }
 	        	
 	        	// add the key event handlers for 
-	        	$('.crumbs').keyup(updateCrumb);
-	        	$('.crumbs').keydown(updateCrumb);
-	        	$('#data').keyup(updateForm);
-	        	$('#data').keydown(updateForm);
-	        	$('.update_crumb').click(updateCrumb);
-	        	$('#update_form').click(updateForm);
+	        	//$('.crumbs').keyup(updateCrumb);
+	        	//$('.crumbs').keydown(updateCrumb);
+	        	//$('#data').keyup(updateForm);
+	        	//$('#data').keydown(updateForm);
+	        	//$('.update_crumb').click(updateCrumb);
+	        	//$('#update_form').click(updateForm);
 	        	$('#test_crumb').click(testCrumb);
 	        	
 	        	// init the GUI
-	        	updateCrumb();
+	        	//updateCrumb();
 	        	initRegexMagic();
 	        	$("#error_json").hide();
 	        	$("#error_email").hide();
@@ -378,7 +458,7 @@
 				});
 			});
 
-			
+        	
 
         	
         </script>
