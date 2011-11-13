@@ -17,7 +17,7 @@
             <g:if test="\${flash.message}">
             <div class="message">\${flash.message}</div>
             </g:if>
-            <div class="list">
+            <div>
                 <table>
                     <thead>
                         <tr>
