@@ -62,7 +62,7 @@ body {
 #main #header #header_right {
     border-left: 1px solid #222222;
     float: left;
-    width: 590px;
+    width: 585px;
     padding-left: 30px;
     padding-top: 30px;
     height: 84px;
@@ -427,4 +427,10 @@ th.desc a {
 .buttons input.save {
     background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 18px;
+}
+
+.sub_navi a{
+	border-left: 1px solid #d3d3d3;
+	border-right: 1px solid #d3d3d3;
+	padding: 5px 10px;
 }

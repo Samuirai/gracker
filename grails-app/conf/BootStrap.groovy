@@ -15,7 +15,7 @@ class BootStrap {
         
         def admin_role = new Role(authority: "ROLE_ADMIN").save();
         new UserRole(user: filip, role: admin_role).save();
-		new UserRole(user: chris, role: admin_role).save();
+		new UserRole(user: chris).save();
 		new UserRole(user: fabi, role: admin_role).save();
 		
         def filipsCrumb = new Crumb(name: 'myZitatTestCrumb', attributesMapString:'[1:[Name:"Content", Type:"String"], 2:[Name:"Author", Type:"String"]]',description:'No Description', refreshInterval: "5 * * * * * *",
