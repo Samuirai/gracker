@@ -16,7 +16,11 @@ class CrumbController {
     }
 
     def list = {
-    	[crumbInstanceList: Crumb.findAllByUser(springSecurityService.currentUser, params), crumbInstanceTotal: Crumb.count()]
+		if (springSecurityService.isLoggedIn()) {
+			[crumbInstanceList: Crumb.findAllByUser(springSecurityService.currentUser, params), crumbInstanceTotal: Crumb.count()]
+		} else {
+			redirect(action: "listPublic",params: params)
+		}
 	}
 	
 	def listPublic = {
@@ -31,7 +35,11 @@ class CrumbController {
             redirect(action: "list")
         }
         else {
-            [crumbInstance: crumbInstance]
+            [crumbInstance: crumbInstance,
+				jobList: crumbService.getDataArray(params.id),
+				attNames: crumbService.getAttributNames(params.id),
+				attTypes: crumbService.getAttributTypes(params.id),
+				sec: springSecurityService]
         }
     }
 
@@ -62,9 +70,13 @@ class CrumbController {
 		}
 
 	def create = {
-		System.out.println(params);
-		def crumbInstance = new Crumb(params)
-		return [crumbInstance: crumbInstance]
+		if (springSecurityService.isLoggedIn()) {
+			System.out.println(params);
+			def crumbInstance = new Crumb(params)
+			return [crumbInstance: crumbInstance]
+		} else {
+			redirect(action: "listPublic",params: params)
+		}
 	}
 	
 	def showResults = {

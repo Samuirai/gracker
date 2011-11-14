@@ -88,12 +88,15 @@
                                     <g:textArea name="profileText" value="${userInstance?.profileText}" style="width:250px;height:100px;" />
                                 </td>
                             </tr>
+                            <tr class="prop">
+                            	<td></td>
+                            	<td>
+                            		<span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+               					</td>
+                            </tr>
                         
                         </tbody>
                     </table>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                 </div>
             </g:form>
         </div>

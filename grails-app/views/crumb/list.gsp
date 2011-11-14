@@ -8,10 +8,12 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-    	<div class="sub_navi">
-	        <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
-	        <g:link class="list" action="list"><g:message code="Your Crumbs" args="[entityName]" /></g:link>
-	        <g:link class="list" action="listPublic"><g:message code="Public Crumbs" args="[entityName]" /></g:link>
+    	<div class="nav">
+	        <sec:ifLoggedIn>
+			<span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="list"><g:message code="Your Crumbs" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="listPublic"><g:message code="Public Crumbs" args="[entityName]" /></g:link></span>
+        	</sec:ifLoggedIn>
         </div>
         <div class="body">
             <g:if test="${flash.message}">
@@ -40,11 +42,12 @@
                     
                     <g:each in="${crumbInstanceList}" status="i" var="crumbInstance">
                    		
-                       
-                      
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "name")}</g:link></td>
+                            <td>
+                            	<g:link action="show" controller="crumb" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "name")}</g:link>
+                            	
+                            </td>
                         
                             <td>${fieldValue(bean: crumbInstance, field: "description")}</td>
                         
@@ -52,23 +55,26 @@
                         
                             <td>${fieldValue(bean: crumbInstance, field: "regEx")}</td>
                             
-                            <td>${fieldValue(bean: crumbInstance, field: "countJobs")}</td>
+                            <td>
+                            	<g:link action="showResults" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "countJobs")}</g:link>
+                            </td>
                         	
                         	<td>
                         		<g:if test="${crumbInstance.nextDate == null}">
-					    			<a href="${createLink(action:'startJob', controller:'crumb')}/${fieldValue(bean: crumbInstance, field: "id")}">Start</a>
+					    			<g:link action="startJob" controller="crumb" id="${crumbInstance.id}">Start</g:link>
+                            	
                         		</g:if>
 					    		<g:else>
-					    			<a href="${createLink(action:'stopJob', controller:'crumb')}/${fieldValue(bean: crumbInstance, field: "id")}">Stop</a>
-                        		</g:else>
-                        		</td>
+					    			<g:link action="stopJob" controller="crumb" id="${crumbInstance.id}">Stop</g:link>
+                            	</g:else>
+                        	</td>
                         </tr>
                        
                     </g:each>
                     </tbody>
                 </table>
             </div>
-            <div class="paginateButtons">
+            <div>
                 <g:paginate total="${crumbInstanceTotal}" />
             </div>
         </div>

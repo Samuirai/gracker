@@ -8,10 +8,12 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-		<div class="sub_navi">
-	        <g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
-	        <g:link class="list" action="list"><g:message code="Your Crumbs" args="[entityName]" /></g:link>
-	        <g:link class="list" action="listPublic"><g:message code="Public Crumbs" args="[entityName]" /></g:link>
+		<div class="nav">
+	        <sec:ifLoggedIn>
+			<span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="list"><g:message code="Your Crumbs" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="listPublic"><g:message code="Public Crumbs" args="[entityName]" /></g:link></span>
+        	</sec:ifLoggedIn>
         </div>
         <div class="body">
             <g:if test="${flash.message}">
@@ -52,17 +54,16 @@
                         
                             <td>${fieldValue(bean: crumbInstance, field: "regEx")}</td>
                             
-                            <td>${crumbInstance.countJobs}</td>
-                            
-                            
-                        
+                            <td>
+                            	<g:link action="showResults" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "countJobs")}</g:link>
+                            </td>
                         </tr>
                         
                     </g:each>
                     </tbody>
                 </table>
             </div>
-            <div class="paginateButtons">
+            <div>
                 <g:paginate total="${crumbInstanceTotal}" />
             </div>
         </div>
