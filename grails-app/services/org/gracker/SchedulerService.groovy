@@ -55,6 +55,19 @@ class SchedulerService {
 		return c.getTime()
 	}
 	
+	def start(def id)  {
+		if(id){
+			def mainS = Scheduler.findByName('mainScheduler')
+			
+			def tmpCrumb = Crumb.get(id)
+			tmpCrumb.nextDate = triggerTime(id)
+			tmpCrumb.save()
+			
+			mainS.crumbsToDo.add(tmpCrumb)
+			mainS.save()
+		}
+	}
+	
 	def stop(def id){
 		if(id){
 			def mainS = Scheduler.findByName('mainScheduler')

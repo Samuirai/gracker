@@ -31,15 +31,17 @@
                             <g:sortableColumn property="description" title="${message(code: 'crumb.description.label', default: 'Description')}" />
                         
                             <g:sortableColumn property="regEx" title="${message(code: 'crumb.regEx.label', default: 'Reg Ex')}" />
+                        	
+                        	<td>${message(code: 'crumb.countJobs.label', default: 'Entries')}</td>
                         
                         </tr>
                     </thead>
                     <tbody>
                     
                     <g:each in="${crumbInstanceList}" status="i" var="crumbInstance">
-                   		
-                        <g:if test="${crumbInstance?.isPublic}">
-                      
+                    
+                      	
+                      	
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
                             <td><g:link action="show" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "name")}</g:link></td>
@@ -49,9 +51,13 @@
                             <td>${fieldValue(bean: crumbInstance, field: "description")}</td>
                         
                             <td>${fieldValue(bean: crumbInstance, field: "regEx")}</td>
+                            
+                            <td>${crumbInstance.countJobs}</td>
+                            
+                            
                         
                         </tr>
-                        </g:if>
+                        
                     </g:each>
                     </tbody>
                 </table>

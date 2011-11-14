@@ -38,28 +38,22 @@ class SchedulerController {
 		if(servletContext.st == null){
 			flash.message = "Could not start Crumb because there's no Thread running"
 		}else if(params.id){
-			def mainS = Scheduler.findByName('mainScheduler')
-			
-			def tmpCrumb = Crumb.get(params.id)
-			tmpCrumb.nextDate = schedulerService.triggerTime(params.id)
-			tmpCrumb.save()
-			
-			mainS.crumbsToDo.add(tmpCrumb)
-			mainS.save()
+			schedulerService.start(params.id)
 		}
 		
 		redirect(action:listJobs)
 	}
 	
-	//TODO Entfernen
-	def test = {
-		flash.message = schedulerService.updateScheduler()
-	}
 
 	def stopJob = {
 		if(params.id){
 			schedulerService.stop(params.id)
 		}
 		redirect(action:listJobs)
+	}
+	
+	//TODO Entfernen
+	def test = {
+		flash.message = schedulerService.updateScheduler()
 	}
 }

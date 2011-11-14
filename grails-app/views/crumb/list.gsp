@@ -31,14 +31,16 @@
                             <g:sortableColumn property="refreshInterval" title="${message(code: 'crumb.refreshInterval.label', default: 'Refresh Interval')}" />
                         
                             <g:sortableColumn property="regEx" title="${message(code: 'crumb.regEx.label', default: 'Reg Ex')}" />
-                        
+                        	
+                        	<td>Entries</td>
+                        	<td>Action</td>
                         </tr>
                     </thead>
                     <tbody>
                     
                     <g:each in="${crumbInstanceList}" status="i" var="crumbInstance">
                    		
-                        <g:if test="${crumbInstance?.user.id == sec.currentUser.id}">
+                       
                       
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
@@ -49,9 +51,19 @@
                             <td>${fieldValue(bean: crumbInstance, field: "refreshInterval")}</td>
                         
                             <td>${fieldValue(bean: crumbInstance, field: "regEx")}</td>
-                        
+                            
+                            <td>${fieldValue(bean: crumbInstance, field: "countJobs")}</td>
+                        	
+                        	<td>
+                        		<g:if test="${crumbInstance.nextDate == null}">
+					    			<a href="${createLink(action:'startJob', controller:'crumb')}/${fieldValue(bean: crumbInstance, field: "id")}">Start</a>
+                        		</g:if>
+					    		<g:else>
+					    			<a href="${createLink(action:'stopJob', controller:'crumb')}/${fieldValue(bean: crumbInstance, field: "id")}">Stop</a>
+                        		</g:else>
+                        		</td>
                         </tr>
-                        </g:if>
+                       
                     </g:each>
                     </tbody>
                 </table>

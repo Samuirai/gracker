@@ -1,10 +1,13 @@
 package org.gracker
 
+import grails.plugins.springsecurity.SpringSecurityService;
+
 class CrumbController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	
 	def springSecurityService
+	def schedulerService
 	def scaffold = Crumb
 	def crumbService
 	
@@ -13,15 +16,12 @@ class CrumbController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		//params.fetch = [belongsTo: [user: springSecurityService.currentUser]]
-        [crumbInstanceList: Crumb.list(params), crumbInstanceTotal: Crumb.count(), sec: springSecurityService]
-    }
+    	[crumbInstanceList: Crumb.findAllByUser(springSecurityService.currentUser, params), crumbInstanceTotal: Crumb.count()]
+	}
 	
 	def listPublic = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		//params.fetch = [belongsTo: [user: springSecurityService.currentUser]]
-		[crumbInstanceList: Crumb.list(params), crumbInstanceTotal: Crumb.count(), sec: springSecurityService]
+		[crumbInstanceList: Crumb.findAllByIsPublic(true, params),  crumbInstanceTotal: Crumb.count()]
+		
 	}
 	
     def show = {
@@ -85,5 +85,33 @@ class CrumbController {
 		}
 	}
 	
+	def startJob = {
+		if(servletContext.st == null){
+			flash.message = "Could not start Crumb because there's no Thread running"
+		}else if(params.id){
+			if(Crumb.get(params.id).user.equals(springSecurityService.currentUser))
+			{
+				schedulerService.start(params.id)
+			} else {
+				flash.message = "Could not start Crumb because it's not your crumb"
+			}
+		}
+		redirect(action:list)
+	}
+	
+
+	def stopJob = {
+		if(servletContext.st == null){
+			flash.message = "Could not stop Crumb because there's no Thread running"
+		}else if(params.id){
+			if(Crumb.get(params.id).user.equals(springSecurityService.currentUser))
+			{
+				schedulerService.stop(params.id)
+			} else {
+				flash.message = "Could not stop Crumb because it's not your crumb"
+			}
+		}
+		redirect(action:list)
+	}
 
 }
