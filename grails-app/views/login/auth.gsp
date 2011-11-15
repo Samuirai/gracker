@@ -1,6 +1,7 @@
 <head>
 <title><g:message code='spring.security.ui.login.title'/></title>
 <meta name='layout' content='main'/>
+
 </head>
 
 <body>
@@ -27,7 +28,7 @@
 			<td></td>
 			<td>
 				<input type="checkbox" class="checkbox" name="${rememberMeParameter}" id="remember_me" checked="checked" />
-				<label for='remember_me'><g:message code='spring.security.ui.login.rememberme'/></label> |
+				<label for='remember_me'><g:message code='spring.security.ui.login.rememberme'/></label><br/>
 				<span class="forgot-link">
 					<g:link controller='register' action='forgotPassword'><g:message code='spring.security.ui.login.forgotPassword'/></g:link>
 				</span>
@@ -38,6 +39,7 @@
 			<td>
 				<g:link elementId='register' controller='register' messageCode='spring.security.ui.login.register'> Register Account </g:link>
 				<g:actionSubmit elementId='loginButton' form='loginForm' value='Login'/>
+
 			</td>
 		</tr>
 	</table>

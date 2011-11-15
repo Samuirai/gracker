@@ -7,7 +7,6 @@
 
 <p/>
 
-
 <g:form action='register' name='registerForm'>
 
 	<div style="width: 600px; margin: 0 auto;">
