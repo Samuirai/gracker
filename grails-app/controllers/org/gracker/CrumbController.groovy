@@ -79,6 +79,14 @@ class CrumbController {
 		}
 	}
 	
+	def save = {
+		def crumbInstance = new Crumb(params)
+		crumbInstance.user = springSecurityService.currentUser;
+		crumbInstance.validThrough = new Date() +10;
+		crumbInstance.save()
+		redirect(action: "list");
+	}
+	
 	def showResults = {
 		if(params.id){
 			try{
