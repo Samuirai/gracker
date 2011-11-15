@@ -133,5 +133,23 @@ class CrumbController {
 		}
 		redirect(action:list)
 	}
+	
+	def analyse = {
+		if(params.id){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id),
+					attNames: crumbService.getAttributNames(params.id),
+					attTypes: crumbService.getAttributTypes(params.id),
+					crumbName: Crumb.get(params.id).name
+				]
+			}catch(Exception e){
+				flash.message = e.message
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
 
 }

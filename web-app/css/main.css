@@ -17,11 +17,16 @@ table.clean {
     width: auto;
 }
 
+table.clean tr {
+    border: none;
+    width: auto;
+}
+
 body {
     font-size: 13px;
     margin: 0;
     padding: 0;
-    font: 14px/17px Arial,sans-serif;
+    font: 13px/17px Arial,sans-serif;
 }
 
 #top_menu {
@@ -445,4 +450,16 @@ th.desc a {
 
 .small_crumblist table{
 	width: 420px;
+}
+
+#footer {
+	color: #999999;
+}
+
+#footer a {
+	color: #999999;
+}
+
+#footer a:hover, #footer a:visited , #footer a:active , #footer a:link {
+	color: #777777;
 }

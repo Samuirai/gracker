@@ -22,7 +22,7 @@
 </head>
 
 <body>
-
+sdfasfsddas
 <g:javascript src='jquery/jquery.jgrowl.js'/>
 <g:javascript src='jquery/jquery.checkbox.js'/>
 <g:javascript src='spring-security-ui.js'/>
