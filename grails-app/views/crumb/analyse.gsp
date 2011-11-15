@@ -30,20 +30,22 @@
         
       }
 
+  	var anz = 0;
       function setValues() {
     	  <g:each in="${jobList}" status="i" var="job">
 			<g:each in="${job}" status="j" var="d">
 				<g:if test="${attTypes?.get(j) == 'Number'}"> 
 					data.setValue(${i}, ${j-1}, ${d});
-					data.addRows(1);
 				</g:if>
+				anz = ${i};
 			</g:each>
+			data.addRows(1);
 		</g:each>
       }
-
 		function init() {
 			data = new google.visualization.DataTable();
 			<g:each in="${attNames}" status="i" var="a">
+				
 				<g:if test="${attTypes?.get(i) == 'Number'}">
 		        	data.addColumn('number', '${a}');
 		        </g:if>
@@ -54,15 +56,16 @@
 		}
     	
       function test() {
-		data.setValue(1, 1, 1);
+    	  anz++;
+		data.setValue(anz++, 1, 1);
 		data.addRows(1);
-		data.setValue(2, 1, 2);
+		data.setValue(anz++, 1, 2);
 		data.addRows(1);
-		data.setValue(1, 1, 1);
+		data.setValue(anz++, 1, 1);
 		data.addRows(1);
-		data.setValue(3, 1, 4);
+		data.setValue(anz++, 1, 4);
 		data.addRows(1);
-		data.setValue(4, 1, 3);
+		data.setValue(anz++, 1, 3);
 		data.addRows(1);
 		drawChart();
       }
@@ -71,7 +74,7 @@
     
     <input type="button" onClick="test()">
 	 
-	
+	 <h1>Example values</h1>
 	<div class="list">
 		<table>
 			<thead>
@@ -81,20 +84,32 @@
 					</g:each>
 				</tr>
 			</thead>
-			<tbody>
-				<g:each in="${jobList}" var="job">
-		    	<tr>
-		    		<g:each in="${job}" var="d">
-		    			<td>${d}</td>
-		    		</g:each>
-				</tr>
-				</g:each>
-			</tbody>
+				<g:if test="${jobList?.size()>5}">
+					<tbody>
+						<g:each in="${jobList[0..5]}" var="job">
+				    	<tr>
+				    		<g:each in="${job}" var="d">
+				    			<td>${d}</td>
+				    		</g:each>
+						</tr>
+						</g:each>
+					</tbody>
+				</g:if>
+				<g:if test="${jobList?.size()<=5 && jobList?.size()>0}">
+					<tbody>
+						<g:each in="${jobList[0..jobList?.size()-1]}" var="job">
+				    	<tr>
+				    		<g:each in="${job}" var="d">
+				    			<td>${d}</td>
+				    		</g:each>
+						</tr>
+						</g:each>
+					</tbody>
+				</g:if>
 		</table>
 	</div>
-	<g:if test="${jobList?.isEmpty()}">
-		<i>Sorry but there is no data tracked for '${crumbName}' yet</i>
-	</g:if>
+	
+		
 	
 </body>
 </html>
