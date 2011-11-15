@@ -20,44 +20,64 @@
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
+      google.setOnLoadCallback(init);
       var data;
+
+      
       function drawChart() {
-        data = new google.visualization.DataTable();
-        data.addColumn('string', 'Online Users');
-        data.addColumn('number', 'Online Users');
-        data.addRows(2);
-
-        <g:each in="${jobList}" status="i" var="job">
-			data.setValue(${i}, 1, ${job.get(1)});
-			data.addRows(1);
-		</g:each>
-        
-        
-
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, {width: 900, height: 300, title: 'German Bash', curveType: 'function'});
         
       }
 
+      function setValues() {
+    	  <g:each in="${jobList}" status="i" var="job">
+			<g:each in="${job}" status="j" var="d">
+				<g:if test="${attTypes?.get(j) == 'Number'}"> 
+					data.setValue(${i}, ${j-1}, ${d});
+					data.addRows(1);
+				</g:if>
+			</g:each>
+		</g:each>
+      }
+
+		function init() {
+			data = new google.visualization.DataTable();
+			<g:each in="${attNames}" status="i" var="a">
+				<g:if test="${attTypes?.get(i) == 'Number'}">
+		        	data.addColumn('number', '${a}');
+		        </g:if>
+	        </g:each>
+	        data.addRows(2);
+	        setValues();
+	        drawChart();
+		}
+    	
+      function test() {
+		data.setValue(1, 1, 1);
+		data.addRows(1);
+		data.setValue(2, 1, 2);
+		data.addRows(1);
+		data.setValue(1, 1, 1);
+		data.addRows(1);
+		data.setValue(3, 1, 4);
+		data.addRows(1);
+		data.setValue(4, 1, 3);
+		data.addRows(1);
+		drawChart();
+      }
+
     </script>
     
     <input type="button" onClick="test()">
-	
+	 
 	
 	<div class="list">
 		<table>
 			<thead>
 				<tr>
-					<td>Date</td>
-					<g:each in="${attNames}" var="a">
-						<td>${a}</td>
-					</g:each>
-				</tr>
-				<tr>
-					<td><i>Date</i></td>
-					<g:each in="${attTypes}" var="a">
-						<td><i>${a}</i></td>
+					<g:each in="${attNames}" status="i" var="a">
+						<td>${a}: <i style="color: #aaaaaa;">${attTypes.get(i)}</i></td>
 					</g:each>
 				</tr>
 			</thead>
