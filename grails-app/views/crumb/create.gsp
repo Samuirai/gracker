@@ -80,7 +80,11 @@
                 					<td><g:textField name="refresh_time_hour" class="crumbs cronjob" id="refresh_time_hour" size="1" value="*" /></td>
                 					<td><g:textField name="refresh_time_minute" class="crumbs cronjob" id="refresh_time_minute" size="1" value="*" /></td>
                 					<td><g:textField name="refresh_time_seconds" class="crumbs cronjob" id="refresh_time_seconds" size="1" value="*" disabled="disabled" /></td>
-                					<td><input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" id="refresh_time_weekly" checked="checked" value="daily"> daily</br><input id="refresh_time_daily" onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="weekly"> weekly</td>
+                					<td>
+                						<input id="refresh_time_interval" onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="interval"> interval</br>
+                						<input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" id="refresh_time_weekly" checked="checked" value="daily"> daily</br>
+                						<input onclick="refreshTime(this)" id="refresh_time_monthly" onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="monthly"> monthly
+                					</td>
                 					<input type="hidden" name="refreshInterval" id="refreshInterval" value="* * * * * *" />
                 				</tr>
                 			</table>
@@ -92,16 +96,18 @@
                 <script>
 
 					function updateRefreshInterval(){
-						if($("#refresh_time_weekly").attr("checked") == "checked") {
+						if($("#refresh_time_monthly").attr("checked") == "checked") {
 							$("#refreshInterval").val($("#refresh_time_seconds").val()+" "+$("#refresh_time_minute").val()+" "+$("#refresh_time_hour").val()+" "+$("#refresh_time_day").val()+" * 1")
 						} else if($("#refresh_time_daily").attr("checked") == "checked") {
 							$("#refreshInterval").val($("#refresh_time_seconds").val()+" "+$("#refresh_time_minute").val()+" "+$("#refresh_time_hour").val()+" "+$("#refresh_time_day").val()+" 1 *")
+						} else if($("#refresh_time_interval").attr("checked") == "checked") {
+							$("#refreshInterval").val($("#refresh_time_seconds").val()+" "+$("#refresh_time_minute").val()+" "+$("#refresh_time_hour").val()+" "+$("#refresh_time_day").val()+" * *")
 						}
 					}
                 
                		$('.cronjob').keyup(updateRefreshInterval);
 					function refreshTime(e) {
-						if(e.value == "weekly") {
+						if(e.value == "monthly") {
 							$("#refresh_time_day").attr("disabled", false);
 							$("#refresh_time_hour").attr("disabled", false);
 							$("#refresh_time_minute").attr("disabled", false);
@@ -110,6 +116,13 @@
 
 							$("#refresh_time_day").attr("disabled", true);
 							$("#refresh_time_day").val("*")
+							$("#refresh_time_hour").attr("disabled", false);
+							$("#refresh_time_minute").attr("disabled", false);
+							$("#refresh_time_seconds").attr("disabled", false);
+							
+						} else if(e.value == "interval") {
+
+							$("#refresh_time_day").attr("disabled", false);
 							$("#refresh_time_hour").attr("disabled", false);
 							$("#refresh_time_minute").attr("disabled", false);
 							$("#refresh_time_seconds").attr("disabled", false);
@@ -128,6 +141,7 @@
 		    	<b>do the magic!</b><br>
 		    	<div id="regex_magic"> </div>
 		    	<input type="button" class="magic_create_regex" onclick="parseRegex()" value="Create Regex">
+		    	<input type="button" class="magic_create_regex" onclick="clearRegex()" value="Clear Regex">
 		    	<table>
 		    		<tr>
 		    			<td>RegEx</td>
@@ -177,7 +191,7 @@
 			var attr = 0;
 			var ponyMagic = [];
 			var dataArray = [];
-			      	
+
 			function parseRegex() {
 				ponyMagic = [];
 				for(nr=0; nr<attr; ++nr){
@@ -225,10 +239,10 @@
 					for(innerNr=0; innerNr<=dataArray[nr]; ++innerNr){
 						attrMapString += counter+': '
 						attrMapString += "\t[Name: '"+$("#data_tag_name_"+nr+"_"+innerNr).val() +"',Type: '"+ $("#data_tag_type_"+nr+"_"+innerNr).val()+ "']"
-				
+
 						if(nr < attr-1 || innerNr < dataArray[nr])
 							attrMapString += ',\n'
-						
+
 						counter++;
 					}
 				}
@@ -236,21 +250,37 @@
 				$("#attributesMapString").val(attrMapString)  
 			}
 
+
+			function clearRegex(){
+				$("#add_regex").val('')
+				$("#attributesMapString").val()
+				$("#regex_magic").empty()
+				
+	        	var url = "";
+	        	var regex = "";
+	        	var refresh_time = "";
+	        	var json = "";
+		        var magicNr = 0;
+	        	
+		        initRegexMagic()
+				
+			}
+			
 			function checkCreate() {
 				if($("#add_regex").val().trim() == ''){
 					alert("Please generete a Regex");
 					return false;
 				}
-				
+
 				for(nr=0; nr<attr; ++nr)
 					if($("#data_tag_name_"+nr).val() == '' ){ 
 						alert("Please give a name for all data-sets you specefied")
 						return false;
 					}	
-				
+
 				return true;
 			}
-			
+
         
 			function getAnzahl(nr) {
 				i=0;
@@ -259,18 +289,18 @@
 				}
 				return i;
 			}
-			
+
 	        function magicAddAttr(nr) {
 		        anz = getAnzahl(nr);
 			    tmp = '';
 			    tmp += ' &nbsp;&nbsp;<input pony="attr_name" type="text" class="magic_tag" id="magic_attr'+anz+'_'+nr+'" />';
 			    tmp += '="<input type="text" pony="attr_value" class="magic_tag" id="magic_attr'+(anz+1)+'_'+nr+'" />"&nbsp; ';
-			    
+
 				$("#magic_attributes_"+nr).append(tmp);
 				$('.magic_tag').keyup(editing_key_press);
 			    $('.magic_tag').keydown(editing_key_press);
 		    }
-		    
+
 		    function magicAddData(nr){
 				dataArray[nr]++;
 		    	tmp = ''
@@ -282,16 +312,16 @@
 				tmp += '</select>'
 				tmp += ' Name:<input type="text" class="magic_tag" id="data_tag_name_'+nr+'_'+dataArray[nr]+'" />';
 				tmp += '}'
-				
+
 				$("#magic_data_"+nr).append(tmp);
 				$('.magic_tag').keyup(editing_key_press);
 			    $('.magic_tag').keydown(editing_key_press);
 			}
-			
+
 			function insertEvenMorePonyMagic(fluttershy){
 				var parts = fluttershy.split("(.*)")
 				var tmp = '';
-				
+
 				for(nr=0; nr<attr; nr++){
 					tmp += parts[nr];
 					for(innerNr=1; innerNr <= dataArray[nr]; innerNr++){
@@ -303,7 +333,7 @@
 				tmp+= parts[attr]
 				return tmp;
 			}
-		    
+
 		    function editing_key_press(e){
 				if(!e.which)editing_restore(this.parentNode);
 				var text = $('<span class="magic_tag">')
@@ -314,29 +344,29 @@
 				if(w<=1) w = 15;
 				$(this).width(w+5);
 			}
-			
+
 			function /* Class */ RegexMagic(_typ,_tag,_attributes) {
 				var typ = _typ;
 				var tag = _tag;
 				var attributes = _attributes;
-				
+
 			}
-			
-			
-			
+
+
+
         	$(document).ready(function(){
-	        	
+
 	        	var url = "";
 	        	var regex = "";
 	        	var refresh_time = "";
 	        	var json = "";
-	        	
-	        	
+
+
 		        function updateSize() {
-		        	
+
 		        }
-		        
-		        
+
+
 		        var magicNr = 0;
 	        	// chris macht
 	        	function initRegexMagic() {
@@ -347,14 +377,14 @@
 					button1 = '<input type="button" class="magic_add_tag" value="Add Tag">';
 					//button2 = '<input type="button" class="magic_create_regex" onclick="parseRegex()" value="Create Regex">';
 					table = '<table id="magic_table" class="clean"><tr><td>'+select+'</td><td>'+button1+'</td></tr></table>';
-					
+
 					$("#regex_magic").append(table);
 					$(".magic_add_tag").click(function(event){
 						tag = '';
 						switch(parseInt($("#magic_tag").val())) {
 							case 0: 
 								dataArray.push(0)
-								
+
 							// TODO: add automatic change tag when changing the other
 								tag = '&lt;'
 								tag += '<input type="text" pony="tag_name_start" class="magic_tag" id="magic_tag1_'+attr+'" />';
@@ -409,7 +439,7 @@
 			     		$('.magic_tag').keypress(editing_key_press);
 					});
 	        	}
-	        
+
 	        	// get the values from the JSON Field an save in the temp variables url,regex and refresh_time
 	        	// DELETED!
 	        	function getJSON() {
@@ -424,7 +454,7 @@
 		        		$("#error_json").slideDown('fast');
 	        		}
 	        	}
-	        	
+
 	        	// create the JSON crumb
 	        	// DELETED!
 	        	function updateCrumb() {
@@ -438,7 +468,7 @@
 	        		getJSON();
 	        		checkForm();
 	        	}
-	        	
+
 	        	// parse the JSON crumb and use the temp variables to fill the forms
 	        	function updateForm() {
 	        		json = $('#data').val();
@@ -448,7 +478,7 @@
 					$('#add_regex').val(regex);
 					$('#add_refresh_time').val(refresh_time);
 	        	}
-	        	
+
 	        	// check the syntax and show errors
 		        function checkForm() {
 			        if(url.match(/^http:\/\//) || url=="") {
@@ -470,7 +500,7 @@
 							$('#data').val( msg );
 						});
 			        }
-	        	
+
 	        	// add the key event handlers for 
 	        	//$('.crumbs').keyup(updateCrumb);
 	        	//$('.crumbs').keydown(updateCrumb);
@@ -479,25 +509,25 @@
 	        	//$('.update_crumb').click(updateCrumb);
 	        	//$('#update_form').click(updateForm);
 	        	$('#test_crumb').click(testCrumb);
-	        	
+
 	        	// init the GUI
 	        	//updateCrumb();
 	        	initRegexMagic();
 	        	$("#error_json").hide();
 	        	$("#error_email").hide();
-	     		
+
         	
 				$(".scroll").click(function(event){
 					//prevent the default action for the click event
 					event.preventDefault();
-			
+
 					//get the full url - like mysitecom/index.htm#home
 					var full_url = this.href;
-			
+
 					//split the url by # and get the anchor target name - home in mysitecom/index.htm#home
 					var parts = full_url.split("#");
 					var trgt = parts[1];
-			
+
 					//get the top offset of the target anchor
 					var target_offset = $("#"+trgt).offset();
 					var target_top = target_offset.top;

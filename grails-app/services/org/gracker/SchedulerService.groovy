@@ -17,8 +17,9 @@ class SchedulerService {
 			
 			new Job(result: parseResult, crumb: crumbs[i]).save()
 			
-			crumbs[i].nextDate = triggerTime(crumbs[i].id)
-			System.out.println("[" + new Date() + "] " + crumbs[i] + " updatet");
+			def tmpDate = triggerTime(crumbs[i].id);
+			crumbs[i].nextDate = tmpDate;
+			System.out.println("["+ new Date() +"] " + crumbs[i]+ " updated")
 		}
 	}
 	
@@ -39,19 +40,63 @@ class SchedulerService {
 		`- Second, 0-59
 	*/
 		//handle the Case of a wrong String
-		if(intervallTokens.size() != 7){
-			return "hallo"
+		if(intervallTokens.size() != 6){
+			//TODO Abfangen und Crumb beenden
+			return ""
 			throw new Exception("Error the String of 'refreshIntervall'("+ tmpCrumb.refreshInterval+" String of " + tmpCrumb + " was not in the right Form")
 		}
 
-		def c = Calendar.getInstance()
+		def c = null
+		if(tmpCrumb.nextDate instanceof java.util.Date){
+			c = tmpCrumb.nextDate.toCalendar()
+		}else
+			c = Calendar.getInstance()
 		
-		if(intervallTokens[0] != "*")
-			c.add(Calendar.SECOND, new Integer(intervallTokens[0]))
+		if(intervallTokens[4] == "*" && intervallTokens[5] == "*"){
+			// Intervall
+			if(intervallTokens[0] != "*")
+				c.add(Calendar.SECOND, new Integer(intervallTokens[0]))
 			
-		if(intervallTokens[1] != "*")
-			c.add(Calendar.MINUTE, new Integer(intervallTokens[1]))
+			if(intervallTokens[1] != "*")
+				c.add(Calendar.MINUTE, new Integer(intervallTokens[1]))
+
+			if(intervallTokens[2] != "*")
+				c.add(Calendar.HOUR, new Integer(intervallTokens[2]))
+				
+			if(intervallTokens[3] != "*")
+				c.add(Calendar.DAY_OF_MONTH, new Integer(intervallTokens[3]))
+				
+		}else if(intervallTokens[4] == "1" && intervallTokens[5] == "*"){
+			//Daily
+			if(intervallTokens[0] != "*")
+				c.set(Calendar.SECOND, new Integer(intervallTokens[0]))
+	
+			if(intervallTokens[1] != "*")
+				c.set(Calendar.MINUTE, new Integer(intervallTokens[1]))
+
+			if(intervallTokens[2] != "*")
+				c.set(Calendar.HOUR, new Integer(intervallTokens[2]))
 			
+			c.add(Calendar.DAY_OF_MONTH, 1);
+				
+				
+		}else if(intervallTokens[4] == "*" && intervallTokens[5] == "1"){
+			//Monthly
+			if(intervallTokens[0] != "*")
+				c.set(Calendar.SECOND, new Integer(intervallTokens[0]))
+
+			if(intervallTokens[1] != "*")
+				c.set(Calendar.MINUTE, new Integer(intervallTokens[1]))
+
+			if(intervallTokens[2] != "*")
+				c.set(Calendar.HOUR, new Integer(intervallTokens[2]))
+	
+			if(intervallTokens[3] != "*")
+				c.set(Calendar.DAY_OF_MONTH, new Integer(intervallTokens[3]))
+				
+			c.add(Calendar.MONTH, 1);
+		
+		}	
 		return c.getTime()
 	}
 	
