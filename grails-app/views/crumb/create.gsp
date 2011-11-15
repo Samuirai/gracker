@@ -7,7 +7,11 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        
+        <div class="nav">
+	        <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="list"><g:message code="Your Crumbs" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="listPublic"><g:message code="Public Crumbs" args="[entityName]" /></g:link></span>
+        </div>
         <div class="body">
             
             <g:if test="${flash.message}">

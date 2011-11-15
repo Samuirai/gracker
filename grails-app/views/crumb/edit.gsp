@@ -10,9 +10,9 @@
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="list"><g:message code="Your Crumbs" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="listPublic"><g:message code="Public Crumbs" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
@@ -45,7 +45,7 @@
                                   <label for="attributesMapString"><g:message code="crumb.attributesMapString.label" default="Attributes Map String" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'attributesMapString', 'errors')}">
-                                    <g:textField name="attributesMapString" value="${crumbInstance?.attributesMapString}" />
+                                    ${crumbInstance?.attributesMapString}
                                 </td>
                             </tr>
                         
@@ -60,10 +60,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="refreshInterval"><g:message code="crumb.refreshInterval.label" default="Refresh Interval" /></label>
+                                  <label for="refreshInterval"><g:message code="crumb.refreshInterval.label" default="Refresh Interval | next Update" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'refreshInterval', 'errors')}">
-                                    <g:textField name="refreshInterval" value="${crumbInstance?.refreshInterval}" />
+                                    ${crumbInstance?.refreshInterval} | ${crumbInstance?.nextDate}
                                 </td>
                             </tr>
                         
@@ -81,7 +81,7 @@
                                   <label for="urlToParse"><g:message code="crumb.urlToParse.label" default="Url To Parse" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'urlToParse', 'errors')}">
-                                    <g:textField name="urlToParse" maxlength="120" value="${crumbInstance?.urlToParse}" />
+                                    ${crumbInstance?.urlToParse}
                                 </td>
                             </tr>
                         
@@ -96,44 +96,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="validThrough"><g:message code="crumb.validThrough.label" default="Valid Through" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'validThrough', 'errors')}">
-                                    <g:datePicker name="validThrough" precision="day" value="${crumbInstance?.validThrough}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="nextDate"><g:message code="crumb.nextDate.label" default="Next Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'nextDate', 'errors')}">
-                                    <g:datePicker name="nextDate" precision="day" value="${crumbInstance?.nextDate}" default="none" noSelection="['': '']" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="jobs"><g:message code="crumb.jobs.label" default="Jobs" /></label>
+                                  <label for="jobs"><g:message code="crumb.jobs.label" default="Entries" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'jobs', 'errors')}">
-                                    
-<ul>
-<g:each in="${crumbInstance?.jobs?}" var="j">
-    <li><g:link controller="job" action="show" id="${j.id}">${j?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="job" action="create" params="['crumb.id': crumbInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'job.label', default: 'Job')])}</g:link>
-
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="user"><g:message code="crumb.user.label" default="User" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'user', 'errors')}">
-                                    <g:select name="user.id" from="${org.gracker.User.list()}" optionKey="id" value="${crumbInstance?.user?.id}"  />
+                                    ${crumbInstance?.countJobs}
                                 </td>
                             </tr>
                         

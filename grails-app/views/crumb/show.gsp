@@ -9,9 +9,11 @@
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <sec:ifLoggedIn>
+			<span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="list"><g:message code="Your Crumbs" args="[entityName]" /></g:link></span>
+	        <span class="menuButton"><g:link class="list" action="listPublic"><g:message code="Public Crumbs" args="[entityName]" /></g:link></span>
+        	</sec:ifLoggedIn>
         </div>
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
@@ -23,13 +25,6 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="crumb.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: crumbInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="crumb.name.label" default="Name" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: crumbInstance, field: "name")}</td>
@@ -39,7 +34,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="crumb.attributesMapString.label" default="Attributes Map String" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: crumbInstance, field: "attributesMapString")}</td>
+                            <td valign="top" class="value">${attNames }</td>
                             
                         </tr>
                     
@@ -78,12 +73,6 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="crumb.validThrough.label" default="Valid Through" /></td>
-                            
-                            <td valign="top" class="value"><g:formatDate date="${crumbInstance?.validThrough}" /></td>
-                            
-                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="crumb.nextDate.label" default="Next Date" /></td>
@@ -100,34 +89,38 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="crumb.jobs.label" default="Jobs" /></td>
+                            <td valign="top" class="name"><g:message code="crumb.jobs.label" default="Entries" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
-                                <ul>
-                                <g:each in="${crumbInstance.jobs}" var="j">
-                                    <li><g:link controller="job" action="show" id="${j.id}">${j?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
+                                <g:link action="showResults" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "countJobs")}</g:link>
                             </td>
                             
                         </tr>
-                    
+                         <sec:ifLoggedIn>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="crumb.user.label" default="User" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="user" action="show" id="${crumbInstance?.user?.id}">${crumbInstance?.user?.encodeAsHTML()}</g:link></td>
-                            
+                        	<td>Action</td>
+                        	<td>
+                        		<g:if test="${crumbInstance.nextDate == null}">
+					    			<a href="${createLink(action:'startJob', controller:'crumb')}/${fieldValue(bean: crumbInstance, field: "id")}">Start</a>
+                        		</g:if>
+					    		<g:else>
+					    			<a href="${createLink(action:'stopJob', controller:'crumb')}/${fieldValue(bean: crumbInstance, field: "id")}">Stop</a>
+                        		</g:else>
+                        	</td>
                         </tr>
+                        </sec:ifLoggedIn>
+                        <g:if test="${crumbInstance?.user?.id == sec.currentUser?.id}">
+	                        <tr class="prob">
+	                        	<td></td>
+	                        	<td><g:form>
+				                <g:hiddenField name="id" value="${crumbInstance?.id}" />
+				                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+				                </g:form></td>
+	                        </tr>
+                        </g:if>
                     
                     </tbody>
                 </table>
-            </div>
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${crumbInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
             </div>
         </div>
     </body>

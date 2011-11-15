@@ -18,6 +18,9 @@ class Crumb implements Comparable<Crumb>{
 	Date nextDate
 	Date dateCreated
 		
+	
+	static transients = ["countJobs"] 
+	
     static constraints = {
     	name(blank: false, siaze: 1..30)
 		attributesMapString()
@@ -29,6 +32,10 @@ class Crumb implements Comparable<Crumb>{
 		validThrough()
 		nextDate(nullable: true)
 		dateCreated()
+	}
+	
+	public int getCountJobs() {
+		return jobs? jobs.size() : 0
 	}
 	
 	public int compareTo(Crumb compareObject)
