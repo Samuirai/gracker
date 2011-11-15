@@ -17,15 +17,8 @@
 		<table>
 			<thead>
 				<tr>
-					<td>Date</td>
-					<g:each in="${attNames}" var="a">
-						<td>${a}</td>
-					</g:each>
-				</tr>
-				<tr>
-					<td><i>Date</i></td>
-					<g:each in="${attTypes}" var="a">
-						<td><i>${a}</i></td>
+					<g:each in="${attNames}" status="i" var="a">
+						<td>${a}: <i style="color: #aaaaaa;">${attTypes.get(i)}</i></td>
 					</g:each>
 				</tr>
 			</thead>

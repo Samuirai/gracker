@@ -64,6 +64,7 @@ class CrumbService {
 							result[counter][i] = 0
 					}
 					counter++
+					
 				}
 				return result
 
@@ -90,6 +91,7 @@ class CrumbService {
 						result[counter] = parseResult[att]['Name']
 						counter++
 					}
+					result[counter] = "Date"
 					return result.reverse()
 				}else return null
 	
@@ -116,6 +118,7 @@ class CrumbService {
 						result[counter] = parseResult[att]['Type']
 						counter++
 					}
+					result[counter] = "Date"
 					return result.reverse()
 				}else return null
 	
