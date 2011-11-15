@@ -1,14 +1,15 @@
 <head>
 <title><g:message code='spring.security.ui.login.title'/></title>
 <meta name='layout' content='main'/>
+
 </head>
 
 <body>
 
 <p/>
 
-<div class="login s2ui_center ui-corner-all" style='text-align:center;'>
-	<div class="login-inner">
+<div class="login s2ui_center ui-corner-all" >
+	<div class="login-inner" style='width: 300px'>
 	<form action='${postUrl}' method='POST' id="loginForm" name="loginForm" autocomplete='off'>
 	<div class="sign-in">
 
@@ -26,7 +27,7 @@
 		<tr>
 			<td colspan='2'>
 				<input type="checkbox" class="checkbox" name="${rememberMeParameter}" id="remember_me" checked="checked" />
-				<label for='remember_me'><g:message code='spring.security.ui.login.rememberme'/></label> |
+				<label for='remember_me'><g:message code='spring.security.ui.login.rememberme'/></label><br/>
 				<span class="forgot-link">
 					<g:link controller='register' action='forgotPassword'><g:message code='spring.security.ui.login.forgotPassword'/></g:link>
 				</span>
@@ -35,7 +36,18 @@
 		<tr>
 			<td colspan='2'>
 				<s2ui:linkButton elementId='register' controller='register' messageCode='spring.security.ui.login.register'/>
-				<s2ui:submitButton elementId='loginButton' form='loginForm' messageCode='spring.security.ui.login.login'/>
+				
+				<a id="loginButton" >Log in</a>
+				<script>
+				$(document).ready(function() {
+					
+					$("#loginButton").button();
+					$('#loginButton').bind('click', function() {
+					   document.forms.loginForm.submit();
+					});
+				
+				});
+				</script>
 			</td>
 		</tr>
 	</table>

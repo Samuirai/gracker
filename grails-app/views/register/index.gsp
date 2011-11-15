@@ -7,7 +7,7 @@
 
 <p/>
 
-<s2ui:form width='650' height='300' elementId='loginFormContainer'
+<s2ui:form width='400' height='360' elementId='loginFormContainer'
            titleCode='spring.security.ui.register.description' center='true'>
 
 <g:form action='register' name='registerForm'>

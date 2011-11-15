@@ -84,14 +84,6 @@
                 		<td>Refresh Time in minutes<br><br>* or number (0, 1, 2, 3, ...)</td>
                 		
                 	</tr>
-                	<tr>
-                		<td>
-                			<textarea name="attributesMapString" id="attributesMapString" cols="40" rows="5" class="crumbs focus textarea" > </textarea>
-                		</td>
-                		<td>
-                			What are your ingredients?<br>Example:<br><br> [<br> 1: [Name: "Quote", Type: "String"],<br> 2: [Name: "Author", Type: "String"]<br>]
-                		</td>
-                	</tr>
                 </table>
                 <script>
 
@@ -131,8 +123,18 @@
 		    <div class="float_left">
 		    	<b>do the magic!</b><br>
 		    	<div id="regex_magic"> </div>
-		    	<textarea name="regEx" id="add_regex" cols="40" rows="5" class="crumbs focus textarea" > </textarea>
+		    	<input type="button" class="magic_create_regex" onclick="parseRegex()" value="Create Regex">
+		    	<table>
+		    		<tr>
+		    			<td>RegEx</td>
+		    			<td><textarea name="regEx" id="add_regex" cols="40" rows="5" class="crumbs focus textarea" > </textarea></td>
+		    		</tr>
+		    		<tr>
+		    			<td>Ingredients</td>
+		    			<td><textarea name="attributesMapString" id="attributesMapString" cols="40" rows="5" class="crumbs focus textarea" > </textarea></td>
+		    		</tr>
 		    	
+		    	</table>
 		    </div>
 		    <div class="clear"> </div>
 	        <hr>
@@ -154,7 +156,7 @@
 		    			<td>buy us a coffee with a cracker, and get a premium account.</td>
 		    		</tr>
 		    		<tr>
-		    			<td><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></td>
+		    			<td><g:submitButton name="create" class="save" value="Create" onClick="return checkCreate()"/></td>
 		    			<td>bake your crumb</td>
 		    		</tr>
 		    	</table>
@@ -170,31 +172,16 @@
 	        var magic;
 			var attr = 0;
 			var ponyMagic = [];
-			
-			var associativeArray = [];
-        	associativeArray["one"] = "First";
-        	associativeArray["two"] = "Second";
-        	associativeArray["three"] = "Third";
-        	for (i in associativeArray) { 
-        	   document.writeln(i+':'+associativeArray[i]+', '); 
-        	   // outputs: one:First, two:Second, three:Third
-        	};
-
-			function compare(a,b) {
-				alert("a: "+a+"\n"+"b: "+b)
-			}
-        	
+			var dataArray = [];
+			      	
 			function parseRegex() {
 				ponyMagic = [];
 				for(nr=0; nr<attr; ++nr){
 					i = 1;
 					do{
-						//$("#add_regex").val($("#add_regex").val()+"#magic_tag"+i+"_"+nr)
 						if($("#magic_tag"+i+"_"+nr).length){ 
-							ponyMagic.push($("#magic_tag"+i+"_"+nr).attr("pony"))
+							ponyMagic.push($("#magic_tag"+i+"_"+nr).attr("pony"));
 							ponyMagic.push($("#magic_tag"+i+"_"+nr).val())
-							//ponyMagic[""+nr+","+i+",key,tag"] = $("#magic_tag"+i+"_"+nr).attr("pony")
-							//ponyMagic[""+nr+","+i+",val,tag"] = $("#magic_tag"+i+"_"+nr).val()
 							j = 0;
 							if($("#magic_tag"+i+"_"+nr).attr("pony")=="tag_name_start") {
 								do{
@@ -202,8 +189,6 @@
 										ponyMagic.push($("#magic_attr"+j+"_"+nr).attr("pony"))
 										ponyMagic.push($("#magic_attr"+j+"_"+nr).val())
 										if($("#magic_attr"+j+"_"+nr).attr("pony") == "attr_value") ponyMagic.push("attr_value_end")
-										//ponyMagic[""+nr+","+j+",key,attr"] = $("#magic_attr"+j+"_"+nr).attr("pony")
-										//ponyMagic[""+nr+","+j+",val,attr"] = $("#magic_attr"+j+"_"+nr).val()
 									}
 									j++
 								} while ($("#magic_attr"+j+"_"+nr).length);
@@ -214,21 +199,6 @@
 					ponyMagic.push("ende");
 				}
 				var fluttershy = ""
-				// <p class="quote">(.*)<br><br>(.*)<\/p>
-				/*
-					0,1,key,tag: tag_name_start
-					0,1,val,tag: 
-					0,2,key,tag: prefix
-					0,2,val,tag: 
-					0,3,key,tag: suffix
-					0,3,val,tag: 
-					0,4,key,tag: tag_name_end
-					0,4,val,tag: 
-					0,0,key,attr: attr_name
-					0,0,val,attr: 
-					0,1,key,attr: attr_value
-					0,1,val,attr: 
-				*/
 				for (j in ponyMagic) { 
 					if(ponyMagic[j]=="tag_name_start") fluttershy += "<"
 					else if(ponyMagic[j]=="attr_name") fluttershy += " "
@@ -239,10 +209,42 @@
 					else if(ponyMagic[j]=="ende") fluttershy += ">"
 					else if(ponyMagic[j]=="tag_name_end") fluttershy += "<\\\/"
 					else fluttershy += ponyMagic[j]
-					$("#add_regex").val($("#add_regex").val()+"\n"+j+": "+ponyMagic[j]);
 				}
+				fluttershy = insertEvenMorePonyMagic(fluttershy)
 				$("#add_regex").val(fluttershy)
+
+				// And Update the ingredients
+				var attrMapString = '[\n'
+				var counter = 1
+
+				for(nr=0; nr<attr; ++nr){
+					for(innerNr=0; innerNr<=dataArray[nr]; ++innerNr){
+						attrMapString += counter+': '
+						attrMapString += "\t[Name: '"+$("#data_tag_name_"+nr+"_"+innerNr).val() +"',Type: '"+ $("#data_tag_type_"+nr+"_"+innerNr).val()+ "']"
 				
+						if(nr < attr-1 || innerNr < dataArray[nr])
+							attrMapString += ',\n'
+						
+						counter++;
+					}
+				}
+				attrMapString += '\n]'
+				$("#attributesMapString").val(attrMapString)  
+			}
+
+			function checkCreate() {
+				if($("#add_regex").val().trim() == ''){
+					alert("Please generete a Regex");
+					return false;
+				}
+				
+				for(nr=0; nr<attr; ++nr)
+					if($("#data_tag_name_"+nr).val() == '' ){ 
+						alert("Please give a name for all data-sets you specefied")
+						return false;
+					}	
+				
+				return true;
 			}
 			
         
@@ -261,9 +263,42 @@
 			    tmp += '="<input type="text" pony="attr_value" class="magic_tag" id="magic_attr'+(anz+1)+'_'+nr+'" />"&nbsp; ';
 			    
 				$("#magic_attributes_"+nr).append(tmp);
-			    $('.magic_tag').keyup(editing_key_press);
+				$('.magic_tag').keyup(editing_key_press);
 			    $('.magic_tag').keydown(editing_key_press);
 		    }
+		    
+		    function magicAddData(nr){
+				dataArray[nr]++;
+		    	tmp = ''
+		    	tmp += ' &nbsp;&nbsp;<input type="text" class="magic_tag" id="data_type_between_'+nr+'_'+dataArray[nr]+'" />';
+				tmp += '{Type: '
+				tmp += '<select id="data_tag_type_'+nr+'_'+dataArray[nr]+'">'
+				tmp += '<option value="String">String</option>'
+				tmp += '<option value="Number">Number</option>'
+				tmp += '</select>'
+				tmp += ' Name:<input type="text" class="magic_tag" id="data_tag_name_'+nr+'_'+dataArray[nr]+'" />';
+				tmp += '}'
+				
+				$("#magic_data_"+nr).append(tmp);
+				$('.magic_tag').keyup(editing_key_press);
+			    $('.magic_tag').keydown(editing_key_press);
+			}
+			
+			function insertEvenMorePonyMagic(fluttershy){
+				var parts = fluttershy.split("(.*)")
+				var tmp = '';
+				
+				for(nr=0; nr<attr; nr++){
+					tmp += parts[nr];
+					for(innerNr=1; innerNr <= dataArray[nr]; innerNr++){
+						tmp += "(.*)"
+						tmp += $("#data_type_between_"+nr+"_"+innerNr).val();	
+					}
+					tmp += "(.*)"
+				}
+				tmp+= parts[attr]
+				return tmp;
+			}
 		    
 		    function editing_key_press(e){
 				if(!e.which)editing_restore(this.parentNode);
@@ -306,14 +341,15 @@
 					select += '<option value="1">&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;</option>'
 					select += '<option value="2">&lt;tagname attrname="{data}" /&gt;</option></select>';
 					button1 = '<input type="button" class="magic_add_tag" value="Add Tag">';
-					button2 = '<input type="button" class="magic_create_regex" onclick="parseRegex()" value="Create Regex">';
-					table = '<table id="magic_table" class="clean"><tr><td>'+select+'</td><td>'+button1+'</td></tr></table>'+button2+'';
+					//button2 = '<input type="button" class="magic_create_regex" onclick="parseRegex()" value="Create Regex">';
+					table = '<table id="magic_table" class="clean"><tr><td>'+select+'</td><td>'+button1+'</td></tr></table>';
 					
 					$("#regex_magic").append(table);
 					$(".magic_add_tag").click(function(event){
 						tag = '';
 						switch(parseInt($("#magic_tag").val())) {
 							case 0: 
+								dataArray.push(0)
 								
 							// TODO: add automatic change tag when changing the other
 								tag = '&lt;'
@@ -322,7 +358,16 @@
 								tag += '<input type="button" value="+" class="small" onClick="magicAddAttr('+attr+');" />';
 								tag += '&gt;';
 								tag += '<input type="text" pony="prefix" class="magic_tag" id="magic_tag2_'+attr+'" />';
-								tag += '{data}'
+								tag += '<span id="magic_data_'+attr+'">'
+								tag += '{Type: '
+								tag += '<select id="data_tag_type_'+attr+'_'+dataArray[attr]+'">'
+								tag += '<option value="String">String</option>'
+								tag += '<option value="Number">Number</option>'
+								tag += '</select>'
+								tag += ' Name:<input type="text" class="magic_tag" id="data_tag_name_'+attr+'_'+dataArray[attr]+'" />';
+								tag += '}'
+								tag += '</span>'
+								tag += '<input type="button" value="+" class="small" onClick="magicAddData('+attr+');" />';
 								tag += '<input type="text" pony="suffix" class="magic_tag" id="magic_tag3_'+attr+'" />';
 								tag += '';
 								tag += '&lt;/<input type="text" pony="tag_name_end" class="magic_tag" id="magic_tag4_'+attr+'"/>&gt;';
@@ -353,7 +398,7 @@
 								break;
 						}
 						tag = '<tr><td>'+tag+'</td><td></td></tr>';
-						$("#regex_magic").prepend(tag)
+						$("#regex_magic").append(tag)
 						attr += 1;
 			     		$('.magic_tag').keyup(editing_key_press);
 			     		$('.magic_tag').keydown(editing_key_press);
@@ -361,7 +406,7 @@
 					});
 	        	}
 	        
-	        	// get the values from the JASON Field an save in the temp variables url,regex and refresh_time
+	        	// get the values from the JSON Field an save in the temp variables url,regex and refresh_time
 	        	// DELETED!
 	        	function getJSON() {
 		        	try {
