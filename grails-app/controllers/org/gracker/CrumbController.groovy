@@ -155,6 +155,63 @@ class CrumbController {
 		}
 	}
 	
+	def analyseWithPieChart = {
+		if(params.id){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id),
+					attNames: crumbService.getAttributNames(params.id),
+					attTypes: crumbService.getAttributTypes(params.id),
+					crumbName: Crumb.get(params.id).name,
+					crumbId : params.id
+				]
+			}catch(Exception e){
+				flash.message = e.message
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
+	
+	def analyseWithColumnChart = {
+		if(params.id){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id),
+					attNames: crumbService.getAttributNames(params.id),
+					attTypes: crumbService.getAttributTypes(params.id),
+					crumbName: Crumb.get(params.id).name,
+					crumbId : params.id
+				]
+			}catch(Exception e){
+				flash.message = e.message
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
+	
+	def analyseWithLineChart = {
+		if(params.id){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id),
+					attNames: crumbService.getAttributNames(params.id),
+					attTypes: crumbService.getAttributTypes(params.id),
+					crumbName: Crumb.get(params.id).name,
+					crumbId : params.id
+				]
+			}catch(Exception e){
+				flash.message = e.message
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
+	
 	def updateAnalyse = {
 		if(params.id1 && params.id2){
 			try{
