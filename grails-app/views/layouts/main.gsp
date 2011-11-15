@@ -84,6 +84,10 @@
 	                <div class="clear"> </div>           
 	            </div> 
         	<g:layoutBody />
+        	<div class="clear"> </div>
+        </br>
+        <div id="footer"> <a href="http://www.gracker.org">gracker.com</a> - the groovy and grails webtracker by <a href="http://www.samuirai.de">Fabian</a>, <a href="http://www.f-haase.com">Filip</a> and <a href="hhttp://www.timeofdarkness.de/">Chris</a> </div>
+    
         </div>
-    </body>
+        </body>
 </html>

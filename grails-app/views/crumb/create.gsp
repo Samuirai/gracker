@@ -59,7 +59,7 @@
             <div id="scroll_2" class="step float_left">2</div>
             <div class="float_left">
                 <b>add more ingredients.</b>
-                <table class="clean">
+                <table class="clean" style="border: 1px solid #d3d3d3;">
                 	<tr>
                 		<td><g:textField name="urlToParse" size="63" id="add_url" class="crumbs" value="${crumbInstance?.urlToParse}" /></td>
                 		<td>URL of the Source</td>
@@ -67,7 +67,7 @@
                 	
                 	<tr>
                 		<td>
-                			<table>
+                			<table style="width: auto;">
                 				<tr>
                 					<td>day</td>
                 					<td>hours</td>

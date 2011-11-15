@@ -7,20 +7,22 @@
 
 <p/>
 
-<s2ui:form width='650' height='300' elementId='loginFormContainer'
-           titleCode='spring.security.ui.register.description' center='true'>
 
 <g:form action='register' name='registerForm'>
 
+	<div style="width: 600px; margin: 0 auto;">
+	<h1>Register</h1>
+	
+	<g:if test="${flash.message}">
+    	<div class="message">${flash.message}</div>
+    </g:if>
 	<g:if test='${emailSent}'>
 	<br/>
 	<g:message code='spring.security.ui.register.sent'/>
 	</g:if>
 	<g:else>
-
-	<br/>
-
-	<table>
+	
+	<table style="width: 600px;">
 	<tbody>
 
 		<s2ui:textFieldRow name='username' labelCode='user.username.label' bean="${command}"
@@ -44,17 +46,18 @@
                              
        	<s2ui:textFieldRow name='website' labelCode='user.website.label' bean="${command}"
                              size='40' labelCodeDefault='Website' value="${command.website}"/>   
-                                                          
+        <tr>
+        	<td></td>
+        	<td><g:actionSubmit elementId='create' form='registerForm' value='Register'/></td>
+        </tr>                  
 	</tbody>
 	</table>
 
-	<s2ui:submitButton elementId='create' form='registerForm' messageCode='spring.security.ui.register.submit'/>
-
+	
 	</g:else>
 
 </g:form>
-
-</s2ui:form>
+</div>
 
 <script>
 $(document).ready(function() {

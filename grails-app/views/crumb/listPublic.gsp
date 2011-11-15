@@ -35,6 +35,8 @@
                             <g:sortableColumn property="regEx" title="${message(code: 'crumb.regEx.label', default: 'Reg Ex')}" />
                         	
                         	<td>${message(code: 'crumb.countJobs.label', default: 'Entries')}</td>
+                        	
+                        	<td></td>
                         
                         </tr>
                     </thead>
@@ -56,6 +58,10 @@
                             
                             <td>
                             	<g:link action="showResults" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "countJobs")}</g:link>
+                            </td>
+                            
+                            <td>
+                            	<g:link action="analyse" id="${crumbInstance.id}">Analyse</g:link>
                             </td>
                         </tr>
                         

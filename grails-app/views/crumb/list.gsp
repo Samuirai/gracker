@@ -57,6 +57,7 @@
                             
                             <td>
                             	<g:link action="showResults" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "countJobs")}</g:link>
+                            	
                             </td>
                         	
                         	<td>
@@ -67,6 +68,7 @@
 					    		<g:else>
 					    			<g:link action="stopJob" controller="crumb" id="${crumbInstance.id}">Stop</g:link>
                             	</g:else>
+                            	<br><g:link action="analyse" id="${crumbInstance.id}">Analyse</g:link>
                         	</td>
                         </tr>
                        
