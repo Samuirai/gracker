@@ -94,7 +94,8 @@ class CrumbController {
 					jobList: crumbService.getDataArray(params.id),
 					attNames: crumbService.getAttributNames(params.id),
 					attTypes: crumbService.getAttributTypes(params.id),
-					crumbName: Crumb.get(params.id).name
+					crumbName: Crumb.get(params.id).name,
+					crumbId : Crumb.get(params.id).id
 				]
 			}catch(Exception e){
 				flash.message = e.message

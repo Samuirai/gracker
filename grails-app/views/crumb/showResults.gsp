@@ -13,7 +13,7 @@
 	<br />
 	
 	<h2>Results</h2>	
-	<g:link action="analyse" id="${crumbInstance.id}">Analyse...</g:link>
+	<g:link action="analyse" id="${crumbId}">Analyse...</g:link>
 	<div class="list">
 		<table>
 			<thead>
