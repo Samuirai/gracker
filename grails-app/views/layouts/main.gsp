@@ -12,6 +12,7 @@
 		<link rel="stylesheet" media="screen" href="${resource(dir:'css',file:'jquery.jgrowl.css')}"/>
 		<link rel="stylesheet" media="screen" href="${resource(dir:'css',file:'jquery.safari-checkbox.css')}"/>
 		<link rel="stylesheet" media="screen" href="${resource(dir:'css',file:'auth.css')}"/>
+		
         
         <g:layoutHead />
         <g:javascript library="application" />
