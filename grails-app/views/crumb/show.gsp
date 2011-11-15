@@ -93,6 +93,7 @@
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <g:link action="showResults" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "countJobs")}</g:link>
+                            	| <g:link action="analyse" id="${crumbInstance.id}">Analyse</g:link>
                             </td>
                             
                         </tr>
