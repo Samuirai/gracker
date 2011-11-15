@@ -81,8 +81,8 @@
                 					<td><g:textField name="refresh_time_minute" class="crumbs cronjob" id="refresh_time_minute" size="1" value="*" /></td>
                 					<td><g:textField name="refresh_time_seconds" class="crumbs cronjob" id="refresh_time_seconds" size="1" value="*" disabled="disabled" /></td>
                 					<td>
-                						<input id="refresh_time_interval" onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="interval"> interval</br>
-                						<input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" id="refresh_time_weekly" checked="checked" value="daily"> daily</br>
+                						<input id="refresh_time_interval" onclick="refreshTime(this)" type="radio" name="refresh_time_interval" checked="checked" value="interval"> interval</br>
+                						<input onclick="refreshTime(this)" type="radio" name="refresh_time_interval" id="refresh_time_weekly" value="daily"> daily</br>
                 						<input onclick="refreshTime(this)" id="refresh_time_monthly" onclick="refreshTime(this)" type="radio" name="refresh_time_interval" value="monthly"> monthly
                 					</td>
                 					<input type="hidden" name="refreshInterval" id="refreshInterval" value="* * * * * *" />
@@ -253,7 +253,7 @@
 
 			function clearRegex(){
 				$("#add_regex").val('')
-				$("#attributesMapString").val()
+				$("#attributesMapString").val('')
 				$("#regex_magic").empty()
 				
 	        	var url = "";
@@ -261,9 +261,9 @@
 	        	var refresh_time = "";
 	        	var json = "";
 		        var magicNr = 0;
+		        var attr = 0;
 	        	
-		        initRegexMagic()
-				
+		        initRegexMagic()			
 			}
 			
 			function checkCreate() {
@@ -352,24 +352,7 @@
 
 			}
 
-
-
-        	$(document).ready(function(){
-
-	        	var url = "";
-	        	var regex = "";
-	        	var refresh_time = "";
-	        	var json = "";
-
-
-		        function updateSize() {
-
-		        }
-
-
-		        var magicNr = 0;
-	        	// chris macht
-	        	function initRegexMagic() {
+	        function initRegexMagic() {
 		        	obj = 0;
 					select = '<select id="magic_tag"><option value="0">&lt;tagname attrname="attrvalue" &gt;{data}&lt;/tagname&gt;</option>'
 					select += '<option value="1">&lt;tagname attrname="{data}" &gt;&lt;/tagname&gt;</option>'
@@ -439,6 +422,23 @@
 			     		$('.magic_tag').keypress(editing_key_press);
 					});
 	        	}
+
+        	$(document).ready(function(){
+
+	        	var url = "";
+	        	var regex = "";
+	        	var refresh_time = "";
+	        	var json = "";
+
+
+		        function updateSize() {
+
+		        }
+
+
+		        var magicNr = 0;
+	        	// chris macht
+				//initRegexMagic();
 
 	        	// get the values from the JSON Field an save in the temp variables url,regex and refresh_time
 	        	// DELETED!
