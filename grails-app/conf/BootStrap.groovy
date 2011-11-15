@@ -28,9 +28,9 @@ class BootStrap {
 		regEx:/[\n\r.]*<p class="quote">(.*)<br><br>(.*)<\/p>/,urlToParse: 'http://www.randomquotes.net/', isPublic: true, user: fabi, validThrough: new Date()+10).save();
 		def filips3Crumb = new Crumb(name: 'testCrumb3', attributesMapString:'[1:[Name:"Content", Type:"String"], 2:[Name:"Author", Type:"String"]]',description:'No Description', refreshInterval: "* 1 * * * * ",
 		regEx:/[\n\r.]*<p class="quote">(.*)<br><br>(.*)<\/p>/,urlToParse: 'http://www.randomquotes.net/', isPublic: true, user: filip, validThrough: new Date()+10).save();
-		def gerbash = new Crumb(name: 'GermanBash Users', attributesMapString:'[1:[Name:"Anzahl",Type:"Number"]]', description: "get the online users from german-bash.org", refreshInterval: "10 * * * * * ",
+		def gerbash = new Crumb(name: 'GermanBash Users', attributesMapString:'[1:[Name:"Anzahl",Type:"Number"]]', description: "get the online users from german-bash.org", refreshInterval: "1 * * * * * ",
 		regEx:/<span class="zahl">(.*)<\/span>\/</, urlToParse: "http://german-bash.org", isPublic: true, user: fabi, validThrough: new Date()+10).save();
-		def gerbash2 = new Crumb(name: 'GermanBash Users and Queue', attributesMapString:'[1:[Name:"User",Type:"Number"],2:[Name:"Queues",Type:"Number"]]', description: "get the online users and quote queue from german-bash.org", refreshInterval: "10 * * * * * ",
+		def gerbash2 = new Crumb(name: 'GermanBash Users and Queue', attributesMapString:'[1:[Name:"User",Type:"Number"],2:[Name:"Queues",Type:"Number"]]', description: "get the online users and quote queue from german-bash.org", refreshInterval: "1 * * * * * ",
 		regEx:/<span class="zahl">([0-9]*)<\/span>\/.*Warteschlange: <span class="zahl">([0-9]*)<\/span>/, urlToParse: "http://german-bash.org", isPublic: true, user: fabi, validThrough: new Date()+10).save();
 		
 	

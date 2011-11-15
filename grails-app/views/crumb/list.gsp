@@ -27,9 +27,7 @@
                         <tr>
                         
                             <g:sortableColumn property="name" title="${message(code: 'crumb.name.label', default: 'Name')}" />
-                           
-                            <g:sortableColumn property="description" title="${message(code: 'crumb.description.label', default: 'Description')}" />
-                        
+                            
                             <g:sortableColumn property="refreshInterval" title="${message(code: 'crumb.refreshInterval.label', default: 'Refresh Interval')}" />
                         
                             <g:sortableColumn property="regEx" title="${message(code: 'crumb.regEx.label', default: 'Reg Ex')}" />
@@ -46,12 +44,21 @@
                         
                             <td>
                             	<g:link action="show" controller="crumb" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "name")}</g:link>
-                            	
+                            	<br><span style="padding-top: 5px; color: #999999;">${fieldValue(bean: crumbInstance, field: "description")}</span>
                             </td>
                         
-                            <td>${fieldValue(bean: crumbInstance, field: "description")}</td>
                         
-                            <td>${fieldValue(bean: crumbInstance, field: "refreshInterval")}</td>
+                            <td>
+                            	<g:if test="${crumbInstance.nextDate}">
+                            	
+	                            	<g:formatDate format="H:mm:ss"  date="${crumbInstance.nextDate}"/><br>
+	                            	<g:formatDate format="dd.MM.yyyy" date="${crumbInstance.nextDate}"/>
+	                            	
+	                            </g:if>
+	                            <g:else>
+	                            	${fieldValue(bean: crumbInstance, field: "refreshInterval")}<br>
+	                            </g:else>
+                            </td>
                         
                             <td>${fieldValue(bean: crumbInstance, field: "regEx")}</td>
                             

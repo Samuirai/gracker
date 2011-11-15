@@ -33,42 +33,39 @@
   	var anz = 0;
       function setValues() {
     	  <g:each in="${jobList}" status="i" var="job">
-			<g:each in="${job}" status="j" var="d">
-				<g:if test="${attTypes?.get(j) == 'Number'}"> 
-					data.setValue(${i}, ${j-1}, ${d});
-				</g:if>
-				anz = ${i};
-			</g:each>
-			data.addRows(1);
+			<g:each in="${job}" status="j" var="d"><g:if test="${attTypes?.get(j) == 'Number'}">data.setValue(${i}, ${j-1}, ${d});</g:if></g:each>
+			anz = ${i};
+			data.addRow();
 		</g:each>
       }
 		function init() {
 			data = new google.visualization.DataTable();
 			<g:each in="${attNames}" status="i" var="a">
-				
 				<g:if test="${attTypes?.get(i) == 'Number'}">
 		        	data.addColumn('number', '${a}');
 		        </g:if>
 	        </g:each>
-	        data.addRows(2);
+	        data.addRow();
 	        setValues();
 	        drawChart();
 		}
+
+      var crumbID = ${crumbId};
     	
       function test() {
-    	  anz++;
-		data.setValue(anz++, 1, 1);
-		data.addRows(1);
-		data.setValue(anz++, 1, 2);
-		data.addRows(1);
-		data.setValue(anz++, 1, 1);
-		data.addRows(1);
-		data.setValue(anz++, 1, 4);
-		data.addRows(1);
-		data.setValue(anz++, 1, 3);
-		data.addRows(1);
-		drawChart();
+        
+		$.ajax({
+			  type: "POST",
+			  url: "${createLink(controller:'crumb', action:'updateAnalyse')}",
+			  data: "id1="+crumbID+"&id2="+(anz+1),
+			}).done(function( msg ) {
+				eval(msg);
+				window.setTimeout("test()", 1000);
+		});
+		
       }
+
+      window.setTimeout("test()", 1000);
 
     </script>
     

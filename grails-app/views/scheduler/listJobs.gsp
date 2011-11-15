@@ -70,7 +70,7 @@
 		    		
 		    		<td>
 		    			<g:link action="showResults" controller="crumb" id="${aC.id}">${fieldValue(bean: aC, field: "countJobs")}</g:link>
-		    			| <g:link action="analyse" id="${aC.id}">Analyse</g:link>
+		    			| <g:link action="analyse" controller="crumb" id="${aC.id}">Analyse</g:link>
 		    		</td>
 		    		<td>${aC.user}</td>
 		    		<td>
