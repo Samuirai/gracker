@@ -33,7 +33,7 @@ class CrumbService {
 		def getDataArray(def id){
 			if(id && Crumb.get(id)){
 				def jobs = Job.findAllByCrumb(Crumb.get(id))
-				ArrayList<Object> result = new ArrayList<Object>()
+				def result = []
 	
 				//Counter for the job Numbers
 				int counter = 0
@@ -79,7 +79,7 @@ class CrumbService {
 				aMS = aMS.replace(']', '}')
 				aMS = aMS.replace('[', '{')
 				
-				ArrayList<Object> result = new ArrayList<Object>()
+				def result = []
 				int counter = 0
 
 				if(aMS != "{:}" && !aMS.isEmpty() && aMS){
@@ -106,7 +106,7 @@ class CrumbService {
 				aMS = aMS.replace(']', '}')
 				aMS = aMS.replace('[', '{')
 				
-				ArrayList<Object> result = new ArrayList<Object>()
+				def result = []
 				int counter = 0
 
 				if(aMS != "{:}" && !aMS.isEmpty() && aMS){

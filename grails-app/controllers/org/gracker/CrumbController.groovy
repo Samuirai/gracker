@@ -108,6 +108,7 @@ class CrumbController {
 		}
 	}
 	
+	
 	def startJob = {
 		if(servletContext.st == null){
 			flash.message = "Could not start Crumb because there's no Thread running"
@@ -144,7 +145,65 @@ class CrumbController {
 					jobList: crumbService.getDataArray(params.id),
 					attNames: crumbService.getAttributNames(params.id),
 					attTypes: crumbService.getAttributTypes(params.id),
-					crumbName: Crumb.get(params.id).name
+					crumbName: Crumb.get(params.id).name,
+					crumbId : params.id
+				]
+			}catch(Exception e){
+				flash.message = e.message
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
+	
+	def analyseWithPieChart = {
+		if(params.id){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id),
+					attNames: crumbService.getAttributNames(params.id),
+					attTypes: crumbService.getAttributTypes(params.id),
+					crumbName: Crumb.get(params.id).name,
+					crumbId : params.id
+				]
+			}catch(Exception e){
+				flash.message = e.message
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
+	
+	def analyseWithColumnChart = {
+		if(params.id){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id),
+					attNames: crumbService.getAttributNames(params.id),
+					attTypes: crumbService.getAttributTypes(params.id),
+					crumbName: Crumb.get(params.id).name,
+					crumbId : params.id
+				]
+			}catch(Exception e){
+				flash.message = e.message
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
+	
+	def analyseWithLineChart = {
+		if(params.id){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id),
+					attNames: crumbService.getAttributNames(params.id),
+					attTypes: crumbService.getAttributTypes(params.id),
+					crumbName: Crumb.get(params.id).name,
+					crumbId : params.id
 				]
 			}catch(Exception e){
 				flash.message = e.message
@@ -264,6 +323,28 @@ class CrumbController {
 			flash.message = "Succesfully imported " + jC + " Jobs"
 			
 		redirect(action: "importCsv", params: [id:params.id, importString: params.importString, jobsDone: jobList])
+	}
+
+	def updateAnalyse = {
+		if(params.id1 && params.id2){
+			try{
+				[
+					jobList: crumbService.getDataArray(params.id1)[(new Integer(params.id2))..-1],
+					attNames: crumbService.getAttributNames(params.id1),
+					attTypes: crumbService.getAttributTypes(params.id1),
+					crumbName: Crumb.get(params.id1).name,
+					crumbId : Crumb.get(params.id1).id,
+					id1: params.id1,
+					id2: (new Integer(params.id2))
+				]
+			}catch(Exception e){
+			flash.message = "error"
+				//flash.message = e.message+" params: " + params.id1 + ","+ params.id2 + "<br>liste: "+crumbService.getDataArray(params.id1)
+			}
+		}else{
+			flash.message = "Crumb with id " + params.id1 + " was not found."
+			redirect(action: list)
+		}
 	}
 
 }
