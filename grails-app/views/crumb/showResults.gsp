@@ -19,7 +19,7 @@
 			<thead>
 				<tr>
 					<g:each in="${attNames}" status="i" var="a">
-						<td>${a}: <i style="color: #aaaaaa;">${attTypes.get(i)}</i></td>
+						<th>${a}: <i style="color: #aaaaaa;">${attTypes.get(i)}</i></th>
 					</g:each>
 				</tr>
 			</thead>

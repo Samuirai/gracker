@@ -28,12 +28,12 @@
                         
                             <g:sortableColumn property="name" title="${message(code: 'crumb.name.label', default: 'Name')}" />
                             
-                            <g:sortableColumn property="refreshInterval" title="${message(code: 'crumb.refreshInterval.label', default: 'Refresh Interval')}" />
+                            <g:sortableColumn property="refreshInterval" title="${message(code: 'crumb.refreshInterval.label', default: 'Interval')}" />
                         
                             <g:sortableColumn property="regEx" title="${message(code: 'crumb.regEx.label', default: 'Reg Ex')}" />
                         	
-                        	<td>Entries</td>
-                        	<td>Action</td>
+                        	<th class="sortable">Entries</th>
+                        	<th class="sortable">Action</th>
                         </tr>
                     </thead>
                     <tbody>

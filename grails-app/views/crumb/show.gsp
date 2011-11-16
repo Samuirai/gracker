@@ -18,16 +18,30 @@
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            	<div class="message">${flash.message}</div>
             </g:if>
+            
+            <g:if test="${crumbInstance.nextDate != null}">
+	            <div class="message">if you want to change your crumb, you have to stop eating all the crumbs. Wait until Christmas for crackers...</div>
+	        </g:if>
             <div class="dialog">
+            
+            <g:form method="post" >
                 <table>
                     <tbody>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="crumb.name.label" default="Name" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: crumbInstance, field: "name")}</td>
+                            <td valign="top" class="value">
+                            	
+                            	<g:if test="${crumbInstance.nextDate == null}">
+                            		<g:textField name="name" value="${crumbInstance?.name}" />
+                            	</g:if>
+                            	<g:else>
+                            		${crumbInstance?.name}
+                            	</g:else>
+                            </td>
                             
                         </tr>
                     
@@ -41,14 +55,28 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="crumb.description.label" default="Description" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: crumbInstance, field: "description")}</td>
+                            <td valign="top" class="value">
+                            	<g:if test="${crumbInstance.nextDate == null}">
+                            		<g:textField name="description" maxlength="200" value="${crumbInstance?.description}" />
+                            	</g:if>
+                            	<g:else>
+                            		${crumbInstance?.description}
+                            	</g:else>
+                            </td>
                             
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="crumb.refreshInterval.label" default="Refresh Interval" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: crumbInstance, field: "refreshInterval")}</td>
+                            <td valign="top" class="value">
+                            	<g:if test="${crumbInstance.nextDate == null}">
+                            		<g:textField name="refreshInterval" value="${crumbInstance?.refreshInterval}" />
+                            	</g:if>
+                            	<g:else>
+                            		${crumbInstance?.refreshInterval}
+                            	</g:else>
+                            </td>
                             
                         </tr>
                     
@@ -109,16 +137,24 @@
                         		</g:else>
                         	</td>
                         </tr>
+                        
                         </sec:ifLoggedIn>
+                       
                         <g:if test="${crumbInstance?.user?.id == sec.currentUser?.id}">
 	                        <tr class="prob">
 	                        	<td></td>
-	                        	<td><g:form>
+	                        	<td>
+	                        	
+                				<g:hiddenField name="version" value="${crumbInstance?.version}" />
 				                <g:hiddenField name="id" value="${crumbInstance?.id}" />
-				                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-				                </g:form></td>
+				                <g:if test="${crumbInstance.nextDate == null}">
+				                	<span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+				                </g:if>
+				                <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+				                </td>
 	                        </tr>
                         </g:if>
+                        </g:form>
                     
                     </tbody>
                 </table>

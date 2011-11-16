@@ -63,7 +63,7 @@
                                   <label for="refreshInterval"><g:message code="crumb.refreshInterval.label" default="Refresh Interval | next Update" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: crumbInstance, field: 'refreshInterval', 'errors')}">
-                                    <g:textField name="name" value="${crumbInstance?.refreshInterval}" /> | ${crumbInstance?.nextDate}
+                                    <g:textField name="refreshInterval" value="${crumbInstance?.refreshInterval}" /> | ${crumbInstance?.nextDate}
                                 </td>
                             </tr>
                         

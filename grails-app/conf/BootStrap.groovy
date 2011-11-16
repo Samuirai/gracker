@@ -9,7 +9,7 @@ class BootStrap {
 		def chris = new User(username: "dark5in", forename: 'Christopher', surename: 'Westphal',
 			password: "password", enabled: true, email:'chris90night@googlemail.com',
 			website: 'http://www.timeofdarkness.de').save();
-		def fabi = new User(username: "samuirai", forename: 'Fabian', surename: 'Fäßler',
+		def fabi = new User(username: "Samuirai", forename: 'Fabian', surename: 'Faessler',
 			password: "password", enabled: true, email:'fabi.faessler@googlemail.com',
 			website: 'http://www.samuirai.de').save();
 		
@@ -20,7 +20,7 @@ class BootStrap {
         def admin_role = new Role(authority: "ROLE_ADMIN").save();
         new UserRole(user: filip, role: admin_role).save();
 		new UserRole(user: chris, role: admin_role).save();
-		new UserRole(user: fabi, role: admin_role).save();
+		//new UserRole(user: fabi, role: admin_role).save();
 		
         def filipsCrumb = new Crumb(name: 'Zitate Test', attributesMapString:'[1:[Name:"Content", Type:"String"], 2:[Name:"Author", Type:"String"]]',description:'Ein Track der zufüllige Zitate samt ihrem Autor speichert.', refreshInterval: "5 * * * * * ",
         regEx:/[\n\r.]*<p class="quote">(.*)<br><br>(.*)<\/p>/,urlToParse: 'http://www.randomquotes.net/', isPublic: false, user: filip, validThrough: new Date()+10).save();

@@ -34,9 +34,9 @@
                         
                             <g:sortableColumn property="regEx" title="${message(code: 'crumb.regEx.label', default: 'Reg Ex')}" />
                         	
-                        	<td>${message(code: 'crumb.countJobs.label', default: 'Entries')}</td>
+                        	<th>${message(code: 'crumb.countJobs.label', default: 'Entries')}</th>
                         	
-                        	<td></td>
+                        	<th class="sortable">Action</th>
                         
                         </tr>
                     </thead>
