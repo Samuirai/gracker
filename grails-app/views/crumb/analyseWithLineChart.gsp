@@ -20,9 +20,10 @@
 	
 	<div></div>
 	
-	<div id="chart_div" style="width:680px;float:left;">
+	<div id="chart_div" style="width:860px;float:left;">
 	</div>
-	<div style="float:left;width:220px;padding-top:50px;">
+	<div id="debug"> </div>
+	<div style="float:left;width:110px;padding-top:50px;">
 		<b>Show the following graphs:</b>
 		<br />&nbsp;<br />
 		<form name="graph_options">
@@ -42,46 +43,78 @@
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(init);
       var data;
+      var jobs = [];
+      var types = [];
+      var anz = 0;
 
 	  function refreshChart() {
-		  init();
 		  drawChart();
 	  }
       
       function drawChart() {
+  	  	data = new google.visualization.DataTable();
+
+	    for (col in types) {
+	    	if(types[col][1] != "Date") {
+	  			if(document.getElementById('graph'+col) && document.getElementById('graph'+col).checked == true) {
+	    		  	data.addColumn(types[col][1].toLowerCase(), types[col][0]);
+	  			}
+	    	  }
+	    	if(types[col][1] == "Date") {
+	    		  	data.addColumn('string', types[col][0]);
+	    		  	
+	    		  	
+	    	  }
+  	  	}
+    	  anz = 0;
+    	  	for (job in jobs) {
+        	  	var i = 0;
+        	  	data.addRow();
+    	  		for (col in jobs[job]) {
+    	  	  		
+    	  			if(jobs[job][col][3] == "Number") {
+		    	  	  	//alert('graph'+col)
+	    	  	  		if(document.getElementById('graph'+col) && document.getElementById('graph'+col).checked == true) {
+	  						data.setValue(parseInt(job), parseInt(i), parseFloat(jobs[job][col][2]));
+	  						i++;
+	    	  	  		}
+    	  	  		}
+    	  			if(jobs[job][col][3] == "Date") {
+		    	  	  	date = new Date(jobs[job][col][2]);
+  						data.setValue(parseInt(job), parseInt(i), date.getHours()+":"+date.getMinutes());
+  						i++;
+    	  	  		}
+    	  		}
+    			anz++;
+    	  	}
+          
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(data, {width:600, height: 300, title: 'German Bash', curveType: 'function'});
+        chart.draw(data, {width:860, height: 300, title: 'German Bash', curveType: 'function'});
       }
 
-  	  var anz = 0;
   	  
-      function setValues() {
-    	  <g:each in="${jobList}" status="i" var="job">
-    	  	var k = 0;
+		var tmp = [];
+  	  function initArray() {
+  	  	
+  		<g:each in="${jobList}" status="i" var="job">
+  			tmp = [];
 			<g:each in="${job}" status="j" var="d">
-				<g:if test="${attTypes?.get(j) == 'Number'}">
-					if(document.getElementById('graph${j}').checked == true) {
-						data.setValue(${i}, k, ${d});
-						k++;
-					}
-				</g:if>
+					tmp.push(new Array(${i},${j},"${d}","${attTypes?.get(j)}"));
 			</g:each>
+			jobs.push(tmp);
 			anz = ${i};
-			data.addRow();
-		  </g:each>
-      }
+		 </g:each>
+  	  }
+  	  
+	
       
 	  function init() {
-	  	data = new google.visualization.DataTable();
-		<g:each in="${attNames}" status="i" var="a">
-			<g:if test="${attTypes?.get(i) == 'Number'}">
-				if(document.getElementById('graph${i}').checked == true) {
-		    		data.addColumn('number', '${a}');
-				}
-		    </g:if>
+	  	types = [];
+	  	<g:each in="${attNames}" status="i" var="a">
+		  	tmp = new Array("${a}","${attTypes?.get(i)}");
+		  	types.push(tmp);
 	    </g:each>
-	    data.addRow();
-	    setValues();
+	    initArray();
 	    drawChart();
  	  }
 
@@ -95,6 +128,7 @@
 				  data: "id1="+crumbID+"&id2="+(anz+1),
 				}).done(function( msg ) {
 					eval(msg);
+					drawChart();
 					if(document.getElementById('live-view').checked == true) {
 						window.setTimeout("refresh()", 1000);
 					}
