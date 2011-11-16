@@ -42,10 +42,7 @@
 					<g:link controller="user">User</g:link>
 				</div>
 				<div class="top_menu_item">
-					<g:link controller="role">Roles</g:link>
-				</div>
-				<div class="top_menu_item">
-					<g:link controller="userRole">UserRoles</g:link>
+					<g:link controller="userRole">Admins</g:link>
 				</div>
 				<div class="top_menu_item">
 					<g:link controller="scheduler">Scheduler</g:link>

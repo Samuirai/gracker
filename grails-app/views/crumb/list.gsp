@@ -77,7 +77,8 @@
                             	</g:else>
                             	<br><g:link action="analyse" id="${crumbInstance.id}">Analyse</g:link>
                             	<br><g:link action="exportCsv" id="${crumbInstance.id}">Export</g:link>
-                            	<br><g:link action="importCsv" id="${crumbInstance.id}">Import</g:link>
+                            	<br><g:link action="importCsv" id="${crumbInstance.id}">Import</g:link><br />
+                            	<br><g:link action="clear" id="${crumbInstance.id}" onclick="return confirm('Are you sure?')}">Clear</g:link>
                         	</td>
                         </tr>
                        

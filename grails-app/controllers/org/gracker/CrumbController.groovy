@@ -3,6 +3,8 @@ package org.gracker
 import grails.plugins.springsecurity.SpringSecurityService;
 import java.text.SimpleDateFormat
 import org.grails.plugins.csv.CSVWriter
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class CrumbController {
 
@@ -233,6 +235,21 @@ class CrumbController {
 		return
 	}
 	
+	def uploadFile = {
+		
+		String str = ''
+		//get File
+		def file = request.getFile('myFile')
+		if(file?.empty)
+			flash.message = "Empty :("
+		else
+			str = file.getInputStream().getText()
+
+		print params.id		
+		redirect(action:"importCsv", params: [id: params.id, importString: str])
+		
+	}
+	
 	def importCsv = {
 		if(params.id){
 			//Id übergeben
@@ -343,8 +360,15 @@ class CrumbController {
 			}
 		}else{
 			flash.message = "Crumb with id " + params.id1 + " was not found."
-			redirect(action: list)
+			redirect(action: "list")
 		}
+	}
+	
+	def clear = {
+		if (params.id && Crumb.get(params.id))
+				def jobs = Job.findAllByCrumb(Crumb.get(params.id))*.delete()
+				
+		redirect(action: "list")		
 	}
 
 }
