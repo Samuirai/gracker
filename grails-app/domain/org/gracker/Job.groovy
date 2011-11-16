@@ -11,5 +11,9 @@ class Job {
 		dateCreated()
 		result(size: 0..9001)
 	}
+	
+	static mapping = {
+		autoTimestamp false
+	 }
 
 }

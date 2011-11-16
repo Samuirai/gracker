@@ -15,7 +15,7 @@ class SchedulerService {
 		for(int i =0; (crumbs[i]?.nextDate < new Date()) && (crumbs.size()>i); i++){
 			def parseResult = crumbService.ponyMagic(crumbs[i].urlToParse, crumbs[i].regEx)
 			
-			new Job(result: parseResult, crumb: crumbs[i]).save()
+			new Job(result: parseResult, crumb: crumbs[i], dateCreated: new Date()).save()
 			
 			def tmpDate = triggerTime(crumbs[i].id);
 			crumbs[i].nextDate = tmpDate;

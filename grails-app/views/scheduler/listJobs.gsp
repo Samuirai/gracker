@@ -55,9 +55,9 @@
 			<thead>	
 				<tr>
 					<td>Name</td>
-					<td>Entries</td>
 					<td>Owner</td>
-					<td>State</td>
+					<td>Entries</td>
+					<td>Action</td>
 				</tr>
 			</thead>
 			
@@ -67,12 +67,11 @@
 		    		<td>
 		    			<a href="${createLink(action:'edit', controller:'crumb')}?id=${aC.id}">${aC.name}</a>
 		    		</td>		    		
-		    		
+		    		<td>${aC.user}</td>		    		
 		    		<td>
 		    			<g:link action="showResults" controller="crumb" id="${aC.id}">${fieldValue(bean: aC, field: "countJobs")}</g:link>
-		    			| <g:link action="analyse" id="${aC.id}">Analyse</g:link>
+		    			| <g:link action="analyse" controller="crumb" id="${aC.id}">Analyse</g:link>
 		    		</td>
-		    		<td>${aC.user}</td>
 		    		<td>
 		    		<g:if test="${aC.nextDate == null}">
 		    			<a href="${createLink(action:'startJob', controller:'scheduler')}/${aC.id}">Start</a>
