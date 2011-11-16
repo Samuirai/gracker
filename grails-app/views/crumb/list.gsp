@@ -44,6 +44,7 @@
                         
                             <td>
                             	<g:link action="show" controller="crumb" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "name")}</g:link>
+                            	
                             	<br><span style="padding-top: 5px; color: #999999;">${fieldValue(bean: crumbInstance, field: "description")}</span>
                             </td>
                         
@@ -64,7 +65,9 @@
                             
                             <td>
                             	<g:link action="showResults" id="${crumbInstance.id}">${fieldValue(bean: crumbInstance, field: "countJobs")}</g:link>
-                            	
+                            	<g:if test="${crumbInstance.nextDate != null}">
+                            		<img width="16" height="16" src="${resource(dir:'images',file:'ajax-loader.gif')}">
+                            	</g:if>
                             </td>
                         	
                         	<td>

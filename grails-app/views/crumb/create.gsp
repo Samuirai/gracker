@@ -224,7 +224,7 @@
 					else if(ponyMagic[j]=="attr_value_end") fluttershy += '"'
 					else if(ponyMagic[j]=="prefix") fluttershy += ">"
 					else if(ponyMagic[j]=="suffix") fluttershy += "(.*)"
-					else if(ponyMagic[j]=="ende") fluttershy += ">"
+					else if(ponyMagic[j]=="ende") fluttershy += ">.*"
 					else if(ponyMagic[j]=="tag_name_end") fluttershy += "<\\\/"
 					else fluttershy += ponyMagic[j]
 				}
@@ -255,13 +255,12 @@
 				$("#add_regex").val('')
 				$("#attributesMapString").val('')
 				$("#regex_magic").empty()
-				
-	        	var url = "";
-	        	var regex = "";
-	        	var refresh_time = "";
-	        	var json = "";
-		        var magicNr = 0;
-		        var attr = 0;
+				ponyMagic = [];
+				fluttershy = "";
+				dataArray = [];
+	        	regex = "";
+		        magicNr = 0;
+		        attr = 0;
 	        	
 		        initRegexMagic()			
 			}
