@@ -24,7 +24,7 @@
 	</div>
 	<div id="debug"> </div>
 	<div style="float:left;width:110px;padding-top:50px;">
-		<b>Show the following graphs:</b>
+		<b>Use the following data:</b>
 		<br />&nbsp;<br />
 		<form name="graph_options">
 		<g:each in="${attNames}" status="i" var="a">
@@ -81,7 +81,7 @@
     	  	  		}
     	  			if(jobs[job][col][3] == "Date") {
 		    	  	  	date = new Date(jobs[job][col][2]);
-  						data.setValue(parseInt(job), parseInt(i), date.getHours()+":"+date.getMinutes());
+  						data.setValue(parseInt(job), parseInt(i), date.getHours()+":"+date.getMinutes()+" "+date.getDate()+"."+date.getMonth()+"."+date.getFullYear());
   						i++;
     	  	  		}
     	  		}
