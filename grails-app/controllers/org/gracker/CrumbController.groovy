@@ -1,10 +1,12 @@
 package org.gracker
 
 import grails.plugins.springsecurity.SpringSecurityService;
+import java.text.SimpleDateFormat
+import org.grails.plugins.csv.CSVWriter
 
 class CrumbController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST", importIt: "POST"]
 	
 	def springSecurityService
 	def schedulerService
@@ -212,6 +214,117 @@ class CrumbController {
 		}
 	}
 	
+	def exportCsv = {
+		if(params.id){
+			
+			[currentID: params.id, crumbName: Crumb.get(params.id).name, exportString: crumbService.getExportString(params.id)]//, downFile: file]
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			redirect(action: list)
+		}
+	}
+	
+	def downloadFile = {
+		def filename = Crumb.get(params.id).name.replace(' ', '_') + "_export.csv"
+
+		response.setContentType("application/octet-stream")
+		response.setHeader("Content-disposition", "filename=${filename}")
+		response.outputStream << crumbService.getExportString(params.id)
+		return
+	}
+	
+	def importCsv = {
+		if(params.id){
+			//Id übergeben
+			[crumbName: Crumb.get(params.id).name, thisId : params.id, importString : params.importString]
+		}else{
+			flash.message = "Crumb with id " + params.id + " was not found."
+			//redirect(action: list)
+		}
+	}
+	
+	def importIt = {
+		def csvString = params.importString
+		
+		def lines = csvString.tokenize('\n')
+		def tokens
+		def attCount = crumbService.getAttributCount(params.id)+1
+		def attNames = crumbService.getAttributNames(params.id)
+		def attTypes = crumbService.getAttributTypes(params.id)
+		def map = [:]
+		def date
+		def job = null
+		def jC = 0
+		def counter
+		def tmpCrumb = Crumb.get(params.id)
+		def jobList = []
+		boolean rightFormat = true
+		
+		for(int lc =0; lc < lines.size() && rightFormat; lc++){
+			counter = 0
+			tokens = lines[lc].tokenize(',')
+			for(int tc=0; tc < tokens.size() && rightFormat; tc ++){
+
+				//Do a little replace Stuff
+				tokens[tc] = tokens[tc].replace('"', '').replace('\r', '')
+				
+				if(tokens.size() != attCount){
+					rightFormat = false;
+				}else if(lc == 0){
+					//First Line with the names
+					//Just check if the names are right
+					if(tokens[tc].replace(' ', '') != attNames[tc])
+						rightFormat = false;
+											
+				}else if(lc == 1){
+					//Second Line with the types
+					//Just check if the types are right
+					if(tokens[tc].replace(' ', '') != attTypes[tc])
+						rightFormat = false;
+				
+				}else{
+					//Set the date
+					if(tc == 0)
+						try{
+							SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+							date = df.parse(tokens[tc])
+						}catch(Exception e){
+							System.out.println(e);
+						}
+					else
+						map.putAt(counter, tokens[tc])
+						
+					counter++
+				}
+			}
+			
+			if(!rightFormat){
+				switch(lc){
+					case 0: flash.message = "Your Names are incorrect formatted, therefore we could not import your CSV "
+						break;
+					case 1: flash.message = "Your Types are incorrect formatted, therefore we could not import your CSV "
+						break;
+					default: flash.message = "Your Line " + lines[lc] + "are incorrect formatted, therefore we could not import your CSV "
+						break;
+				}
+			}
+
+			// If not Type or Name Line create the Job 
+			if(lc != 0 && lc != 1){
+				job = new Job(dateCreated: date, result: map.toMapString(), crumb: tmpCrumb).save()
+				if(job){
+					jC++
+					jobList.add(job)
+				}
+			}
+		}
+		
+		if(rightFormat)
+			flash.message = "Succesfully imported " + jC + " Jobs"
+			
+		redirect(action: "importCsv", params: [id:params.id, importString: params.importString, jobsDone: jobList])
+	}
+
 	def updateAnalyse = {
 		if(params.id1 && params.id2){
 			try{
@@ -233,6 +346,5 @@ class CrumbController {
 			redirect(action: list)
 		}
 	}
-
 
 }

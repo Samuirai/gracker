@@ -76,6 +76,8 @@
 					    			<g:link action="stopJob" controller="crumb" id="${crumbInstance.id}">Stop</g:link>
                             	</g:else>
                             	<br><g:link action="analyse" id="${crumbInstance.id}">Analyse</g:link>
+                            	<br><g:link action="exportCsv" id="${crumbInstance.id}">Export</g:link>
+                            	<br><g:link action="importCsv" id="${crumbInstance.id}">Import</g:link>
                         	</td>
                         </tr>
                        

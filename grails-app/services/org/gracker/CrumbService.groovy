@@ -140,4 +140,29 @@ class CrumbService {
 				throw new Exception("Crumb Not Found")
 			}
 		}
+		
+		def getExportString(def id){
+			String csvString ='"'
+			for(def i in getAttributNames(id))
+				csvString += i + '", "'
+			
+			csvString = csvString.substring(0, csvString.size()-3) + '\n"'
+			
+			for(def i in getAttributTypes(id))
+				csvString += i + '", "'
+
+			csvString = csvString.substring(0, csvString.size()-3) + '\n"'
+
+			for(def i in getDataArray(id)){
+				
+				for(def j in i){
+					if( j instanceof java.util.Date)
+						csvString += String.format('%td.%<tm.%<tY %<tH:%<tM:%<tS', j) + '", "'
+					else
+						csvString += j.toString() + '", "'
+				}
+				csvString = csvString.substring(0, csvString.size()-3) + '\n"'
+			}
+			csvString = csvString.substring(0, csvString.size()-1)
+		}
 }
